@@ -178,6 +178,111 @@ Blockly.Blocks["basic_string"] = {
 	}
 };
 
+
+Blockly.Blocks['basic_TFT_setRotation'] = {
+	init: function() {
+		this.appendDummyInput()
+			.appendField("set Rotaion")
+			.appendField(new Blockly.FieldDropdown([
+				["TOP","0"],
+				["RIGHT","1"],
+				["DOWN","2"],
+				["LEFT","3"]]),
+				"rotation");
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(160);
+		this.setTooltip("");
+		this.setHelpUrl("");
+	}
+};
+
+Blockly.Blocks['basic_TFT_fillScreen'] = {
+	init: function() {
+		this.appendDummyInput()
+			.appendField("set fillScreen")
+			.appendField(new Blockly.FieldDropdown([
+				["BLACK","0x0000"],
+				["WHITE","0xFFFF"],
+				["RED","0xF800"],
+				["GREEN","0x07E0"],
+				["BLUE","0x001F"]]),
+				"COLOR");
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(160);
+		this.setTooltip("");
+		this.setHelpUrl("");
+	}
+};
+
+Blockly.Blocks['basic_TFT_setTextSize'] = {
+	init: function() {
+		this.appendDummyInput()
+			.appendField("set Text Size")
+			.appendField(new Blockly.FieldDropdown([
+				["6x8","1"],
+				["12x16","2"],
+				["18x24","3"]]),
+				"textSize");
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(160);
+		this.setTooltip("");
+		this.setHelpUrl("");
+	}
+};
+
+Blockly.Blocks['basic_TFT_print'] = {
+    init: function() {
+        this.appendValueInput("TEXT")
+            .appendField("x")
+            .appendField(new Blockly.FieldNumber(0, 0, 320), "X")
+            .appendField("y")
+            .appendField(new Blockly.FieldNumber(0, 0, 240), "Y")
+            .appendField("color")
+            .appendField(new Blockly.FieldDropdown([
+                ["BLACK","0x0000"],
+                ["WHITE","0xFFFF"],
+                ["RED","0xF800"],
+                ["GREEN","0x07E0"],
+                ["BLUE","0x001F"]]),
+                "COLOR");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(160);
+        this.setTooltip("display string at x,y");
+        this.setHelpUrl("");
+    }
+};
+
+Blockly.Blocks['basic_TFT_clearPixel'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("TFT clear x:")
+            .appendField(new Blockly.FieldNumber(0, 0, 320), "X")
+            .appendField("y:")
+			.appendField(new Blockly.FieldNumber(0, 0, 240), "Y")
+			.appendField(" width:")
+			.appendField(new Blockly.FieldNumber(0, 0, 320), "W")
+            .appendField("hight:")
+			.appendField(new Blockly.FieldNumber(0, 0, 240), "H")
+			.appendField("color:")
+            .appendField(new Blockly.FieldDropdown([
+                ["BLACK","0x0000"],
+                ["WHITE","0xFFFF"],
+                ["RED","0xF800"],
+                ["GREEN","0x07E0"],
+                ["BLUE","0x001F"]]),
+				"COLOR");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(160);
+        this.setTooltip("clear display");
+        this.setHelpUrl("");
+    }
+};
+
 // =============================================================================
 // math
 // =============================================================================

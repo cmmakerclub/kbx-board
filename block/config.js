@@ -13,7 +13,12 @@ module.exports = {
                 'basic_led16x8_scroll_when_ready',
                 'basic_delay',
                 'basic_forever',
-                'basic_string'
+                'basic_string',
+                'basic_TFT_setRotation',
+                'basic_TFT_fillScreen',
+                'basic_TFT_setTextSize',
+                'basic_TFT_print',
+                'basic_TFT_clearPixel'
             ]
         },
         {

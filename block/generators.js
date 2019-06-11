@@ -76,6 +76,33 @@ Blockly.JavaScript['basic_string'] = function(block) {
 	];
 };
 
+Blockly.JavaScript['basic_TFT_setRotation'] = function(block) {
+	var code = 'KBX.Lcd.setRotation('+block.getFieldValue('rotation')+');\n';
+	return code;
+};
+
+Blockly.JavaScript['basic_TFT_fillScreen'] = function(block) {
+	var code = 'KBX.Lcd.fillScreen('+block.getFieldValue('COLOR')+');\n';
+	return code;
+};
+
+Blockly.JavaScript['basic_TFT_setTextSize'] = function(block) {
+	var code = 'KBX.Lcd.setTextSize('+block.getFieldValue('textSize')+');\n';
+	return code;
+};
+
+Blockly.JavaScript['basic_TFT_print'] = function(block) {
+	var argument0 = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
+	var code = 'KBX.Lcd.setCursor('+block.getFieldValue('X')+', '+block.getFieldValue('Y')+');\n KBX.Lcd.setTextColor('+block.getFieldValue('COLOR')+');\n KBX.Lcd.println(String('+argument0+'));\n';
+	return code;
+};
+
+Blockly.JavaScript['basic_TFT_clearPixel'] = function(block) {
+	// tft.fillRect(210, 80, 100, 35, ILI9341_BLACK);
+	var code = 'KBX.Lcd.fillRect('+block.getFieldValue('X')+', '+block.getFieldValue('Y')+', '+block.getFieldValue('W')+', '+block.getFieldValue('H')+', '+block.getFieldValue('COLOR')+');\n';
+	return code;
+};
+
 // =============================================================================
 // math
 // =============================================================================
