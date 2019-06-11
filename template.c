@@ -6,12 +6,8 @@
 
 ${EXTINC}
 
-
-
 typedef int Number;
 typedef int Boolean;
-
-//using namespace std;
 
 ${VARIABLE}
 
