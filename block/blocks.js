@@ -256,6 +256,84 @@ Blockly.Blocks['basic_TFT_print'] = {
     }
 };
 
+Blockly.Blocks['basic_TFT_setTextColor'] = {
+	init: function() {
+		this.appendDummyInput()
+			.appendField("set Text Color:")
+			.appendField(new Blockly.FieldDropdown([
+				["BLACK","0x0000"],
+				["WHITE","0xFFFF"],
+				["RED","0xF800"],
+				["GREEN","0x07E0"],
+				["BLUE","0x001F"]]),
+				"tColor")
+			.appendField("set Background Color:")
+			.appendField(new Blockly.FieldDropdown([
+				["BLACK","0x0000"],
+				["WHITE","0xFFFF"],
+				["RED","0xF800"],
+				["GREEN","0x07E0"],
+				["BLUE","0x001F"]]),
+				"bColor");
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(160);
+		this.setTooltip("");
+		this.setHelpUrl("");
+	}
+};
+
+Blockly.Blocks['basic_TFT_setFonts'] = {
+	init: function() {
+		this.appendDummyInput()
+			.appendField("set Text Size:")
+			.appendField(new Blockly.FieldDropdown([
+				["09","09"],
+				["12","12"],
+				["18","18"],
+				["24","24"]]),
+				"sText")
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(160);
+		this.setTooltip("");
+		this.setHelpUrl("");
+	}
+};
+
+Blockly.Blocks['basic_TFT_print_TH'] = {
+	init: function() {
+	  this.appendDummyInput()
+		  .appendField("TFT Thai fonts x:")
+		  .appendField(new Blockly.FieldNumber(0, 0, 320), "X")
+		  .appendField("y:")
+		  .appendField(new Blockly.FieldNumber(0, 0, 240), "Y")
+		  .appendField("message:")
+		  .appendField(new Blockly.FieldTextInput("default"), "TEXT");
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(160);
+		this.setTooltip("display thai fonts");
+		this.setHelpUrl("");
+	}
+  };
+
+// Blockly.Blocks['basic_TFT_print_TH'] = {
+//     init: function() {
+// 		this.appendValueInput("TEXT")
+// 			.appendField("TFT print Thai fonts ")
+//             .appendField("x")
+//             .appendField(new Blockly.FieldNumber(0, 0, 320), "X")
+//             .appendField("y")
+//             .appendField(new Blockly.FieldNumber(0, 0, 240), "Y")
+//         this.setPreviousStatement(true, null);
+//         this.setNextStatement(true, null);
+//         this.setColour(160);
+//         this.setTooltip("display thai fonts");
+//         this.setHelpUrl("");
+//     }
+// };
+
 Blockly.Blocks['basic_TFT_clearPixel'] = {
     init: function() {
         this.appendDummyInput()

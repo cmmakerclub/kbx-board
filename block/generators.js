@@ -97,6 +97,22 @@ Blockly.JavaScript['basic_TFT_print'] = function(block) {
 	return code;
 };
 
+Blockly.JavaScript['basic_TFT_setTextColor'] = function(block) {
+	var code = 'KBX.Lcd.setTextColor('+block.getFieldValue('tColor')+', '+block.getFieldValue('bColor')+');\n';
+	return code;
+};
+
+Blockly.JavaScript['basic_TFT_setFonts'] = function(block) { 
+	var code = 'KBX.Lcd.setUTF8Font(CF_KN_REG_'+block.getFieldValue('sText')+'_EN, CF_KN_REG_'+block.getFieldValue('sText')+'_TH, NULL);\n';
+	return code;
+};
+
+Blockly.JavaScript['basic_TFT_print_TH'] = function(block) {
+	//var argument0 = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
+	var code = 'KBX.Lcd.drawUTF8String("'+block.getFieldValue('TEXT')+'", '+block.getFieldValue('X')+', '+block.getFieldValue('Y')+', 1);\n';
+	return code;
+};
+
 Blockly.JavaScript['basic_TFT_clearPixel'] = function(block) {
 	// tft.fillRect(210, 80, 100, 35, ILI9341_BLACK);
 	var code = 'KBX.Lcd.fillRect('+block.getFieldValue('X')+', '+block.getFieldValue('Y')+', '+block.getFieldValue('W')+', '+block.getFieldValue('H')+', '+block.getFieldValue('COLOR')+');\n';
