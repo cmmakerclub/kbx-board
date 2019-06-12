@@ -29,11 +29,11 @@ Blockly.JavaScript['basic_led16x8'] = function(block) {
 	}
 
 	//return 'ht16k33.show((uint8_t *)"' + str + '");\n';
-	return 'matrix.printText(0, 0, " ");\n';
+	return 'KBX.matrix.drawPixel(0, 0, LED_ON);\n';
 };
 
 Blockly.JavaScript['basic_led16x8_clr'] = function(block) {
-	var code = 'matrix.printText(0, 0, " ");\n';
+	var code = 'KBX.matrix.clear();\n';
 	return code;
 	//return 'ht16k33.show((uint8_t *)"\\x0\\x0\\x0\\x0\\x0\\x0\\x0\\x0\\x0\\x0\\x0\\x0\\x0\\x0\\x0\\x0");\n';
 };
@@ -41,7 +41,7 @@ Blockly.JavaScript['basic_led16x8_clr'] = function(block) {
 Blockly.JavaScript['basic_led16x8_2chars'] = function(block) {
 	var argument0 = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
     //var argument0 = Blockly.JavaScript.valueToCode(block);
-	var code = 'matrix.printText(0, 0, String(' + argument0 + '));\n';
+	var code = 'KBX.matrix.clear();\n KBX.matrix.setCursor(0, 0);\n KBX.matrix.print(String(' + argument0 + '));\n KBX.matrix.writeDisplay();\n';
 	return code;
 };
 
@@ -109,7 +109,7 @@ Blockly.JavaScript['basic_TFT_setFonts'] = function(block) {
 
 Blockly.JavaScript['basic_TFT_print_TH'] = function(block) {
 	//var argument0 = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
-	var code = 'KBX.Lcd.drawUTF8String("'+block.getFieldValue('TEXT')+'", '+block.getFieldValue('X')+', '+block.getFieldValue('Y')+', 1);\n';
+	var code = 'KBX.Lcd.spi_init();\n KBX.Lcd.drawUTF8String("'+block.getFieldValue('TEXT')+'", '+block.getFieldValue('X')+', '+block.getFieldValue('Y')+'+KBX.Lcd.fontHeight(1), 1);\n';
 	return code;
 };
 

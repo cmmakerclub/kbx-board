@@ -16,10 +16,10 @@ module.exports = {
                 'basic_string',
                 'basic_TFT_setRotation',
                 'basic_TFT_fillScreen',
-                'basic_TFT_setTextSize',
-                'basic_TFT_print',
-                'basic_TFT_setTextColor',
+                // 'basic_TFT_setTextSize',
+                // 'basic_TFT_print',
                 'basic_TFT_setFonts',
+                'basic_TFT_setTextColor',
                 'basic_TFT_print_TH',
                 'basic_TFT_clearPixel'
             ]

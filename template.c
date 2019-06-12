@@ -16,6 +16,12 @@ ${FUNCTION}
 void setup()
 {
   KBX.begin();
+
+  KBX.matrix.clear();
+  KBX.matrix.setRotation(1);
+  KBX.matrix.setTextColor(LED_ON);
+  KBX.matrix.setTextWrap(false);
+
   ${SETUP_CODE}
   ${BLOCKSETUP}
 }
