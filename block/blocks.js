@@ -1633,15 +1633,14 @@ Blockly.Blocks["comm_uart_writeln"] = {
 // I/O
 // =============================================================================
 var io_colour = Blockly.Msg.IO_HUE;
-// var io_colour = "#F66563";
 Blockly.Blocks["output_write"] = {
 	init: function() {
 		this.appendDummyInput()
 			.appendField(new Blockly.FieldImage("/static/block_icons/banana.png", 20, 20, "*"))
 			.appendField(Blockly.Msg.OUTPUT_WRITE_TITLE)
 			.appendField(new Blockly.FieldDropdown([
-				["1", "1"],
-				["2", "2"],
+				["1", "KB_OUTPUT1"],
+				["2", "KB_OUTPUT2"],
 				["LED_BT", "KB_LED_BT"],
                 ["LED_WIFI", "KB_LED_WIFI"],
                 ["LED_NTP", "KB_LED_NTP"],
@@ -1667,8 +1666,8 @@ Blockly.Blocks["output_toggle"] = {
 			.appendField(new Blockly.FieldImage("/static/block_icons/banana.png", 20, 20, "*"))
 			.appendField(Blockly.Msg.OUTPUT_TOGGLE_TITLE)
 			.appendField(new Blockly.FieldDropdown([
-				["1", "1"],
-				["2", "2"]
+				["1", "KB_OUTPUT1"],
+				["2", "KB_OUTPUT2"]
 			]), 'OUTPUT')
 			.appendField(Blockly.Msg.STATUS);
 		this.setInputsInline(true);
@@ -1686,8 +1685,8 @@ Blockly.Blocks["output_read"] = {
 			.appendField(new Blockly.FieldImage("/static/block_icons/banana.png", 20, 20, "*"))
 			.appendField(Blockly.Msg.OUTPUT_READ_TITLE)
 			.appendField(new Blockly.FieldDropdown([
-				["1", "1"],
-				["2", "2"]
+				["1", "KB_OUTPUT1"],
+				["2", "KB_OUTPUT2"]
 			]), 'OUTPUT');
 		this.setOutput(true, 'Number');
 		this.setInputsInline(true);

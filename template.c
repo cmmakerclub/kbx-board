@@ -3,6 +3,11 @@
 #include <WiFi.h>
 #include "kbxui.h"
 #include "FontsTH.h"
+#include "KB_LDR.h"
+#include "KB_LM73.h"
+
+KB_LDR ldr = KB_LDR();
+KB_LM73 lm73 = KB_LM73();
 
 ${EXTINC}
 
@@ -15,8 +20,9 @@ ${FUNCTION}
 
 void setup()
 {
+  lm73.begin();
+  
   KBX.begin();
-
   KBX.matrix.clear();
   KBX.matrix.setRotation(1);
   KBX.matrix.setTextColor(LED_ON);

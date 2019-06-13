@@ -531,39 +531,36 @@ Blockly.JavaScript['rtc_cal_coarse'] = function(block) {
 // I/O
 // =============================================================================
 Blockly.JavaScript['output_write'] = function(block) {
-    var code = 'board.pinWrite('+ block.getFieldValue('OUTPUT') + ',' + block.getFieldValue('STATUS') + ');\n';
+    var code = 'digitalWrite('+ block.getFieldValue('OUTPUT') + ',' + block.getFieldValue('STATUS') + ');\n';
     return code;
 
 	//return 'ports.output' + block.getFieldValue('OUTPUT') + '_write(' + block.getFieldValue('STATUS') + ');\n';
 };
 Blockly.JavaScript['output_toggle'] = function(block) {
-	return 'ports.output' + block.getFieldValue('OUTPUT') + '_toggle();\n';
+	var code = 'digitalWrite('+ block.getFieldValue('OUTPUT') + ', !digitalRead(' + block.getFieldValue('OUTPUT') + '));\n';
+	return code;
 };
 Blockly.JavaScript['output_read'] = function(block) {
-	// var code = 'board.pinReadDigital('+ block.getFieldValue('OUTPUT') + ');\n';
-	// return code
-
 	return [
-		'ports.output' + block.getFieldValue('OUTPUT') + '_read()',
+		'digitalRead('+ block.getFieldValue('OUTPUT') + ')',
 		Blockly.JavaScript.ORDER_ATOMIC
 	];
 };
 Blockly.JavaScript['usbsw_write'] = function(block) {
-	return 'ports.usbsw_write(' + block.getFieldValue('STATUS') + ');\n';
+	var code = 'digitalWrite(KB_USB,' + block.getFieldValue('STATUS') + ');\n';
+	return code;
 };
 Blockly.JavaScript['usbsw_toggle'] = function(block) {
-	return 'ports.usbsw_toggle();\n';
+	var code = 'digitalWrite(KB_USB, !digitalRead(KB_USB));\n';
+    return code;
 };
 Blockly.JavaScript['usbsw_read'] = function(block) {
-	return [
-		'ports.usbsw_read()',
+	return [ 
+		'((int)digitalRead(KB_USB))',
 		Blockly.JavaScript.ORDER_ATOMIC
 	];
 };
 Blockly.JavaScript['input_read'] = function(block) {
-	// var code = 'board.pinReadDigital('+ block.getFieldValue('INPUT') + ');\n';
-	// return code;
-
 	return [
 		'digitalRead(' + block.getFieldValue('INPUT') + ')',
 		Blockly.JavaScript.ORDER_ATOMIC
