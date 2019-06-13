@@ -199,15 +199,18 @@ Blockly.Blocks['basic_TFT_setRotation'] = {
 
 Blockly.Blocks['basic_TFT_fillScreen'] = {
 	init: function() {
+		// this.appendDummyInput()
+		// 	.appendField("TFT fillScreen")
+		// 	.appendField(new Blockly.FieldDropdown([
+		// 		["BLACK","0x0000"],
+		// 		["WHITE","0xFFFF"],
+		// 		["RED","0xF800"],
+		// 		["GREEN","0x07E0"],
+		// 		["BLUE","0x001F"]]),
+		// 		"COLOR");
 		this.appendDummyInput()
-			.appendField("TFT fillScreen")
-			.appendField(new Blockly.FieldDropdown([
-				["BLACK","0x0000"],
-				["WHITE","0xFFFF"],
-				["RED","0xF800"],
-				["GREEN","0x07E0"],
-				["BLUE","0x001F"]]),
-				"COLOR");
+			.appendField("TFT fillScreen:")
+			.appendField(new Blockly.FieldColour('#000000'), 'COLOR')
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
 		this.setColour(160);
@@ -258,23 +261,28 @@ Blockly.Blocks['basic_TFT_print'] = {
 
 Blockly.Blocks['basic_TFT_setTextColor'] = {
 	init: function() {
+		// this.appendDummyInput()
+		// 	.appendField("TFT Text Color:")
+		// 	.appendField(new Blockly.FieldDropdown([
+		// 		["BLACK","0x0000"],
+		// 		["WHITE","0xFFFF"],
+		// 		["RED","0xF800"],
+		// 		["GREEN","0x07E0"],
+		// 		["BLUE","0x001F"]]),
+		// 		"tColor")
+		// 	.appendField("set Background Color:")
+		// 	.appendField(new Blockly.FieldDropdown([
+		// 		["BLACK","0x0000"],
+		// 		["WHITE","0xFFFF"],
+		// 		["RED","0xF800"],
+		// 		["GREEN","0x07E0"],
+		// 		["BLUE","0x001F"]]),
+		// 		"bColor");
 		this.appendDummyInput()
-			.appendField("TFT Text Color:")
-			.appendField(new Blockly.FieldDropdown([
-				["BLACK","0x0000"],
-				["WHITE","0xFFFF"],
-				["RED","0xF800"],
-				["GREEN","0x07E0"],
-				["BLUE","0x001F"]]),
-				"tColor")
+        	.appendField("TFT Text Color:")
+			   .appendField(new Blockly.FieldColour('#000000'), 'tColor')
 			.appendField("set Background Color:")
-			.appendField(new Blockly.FieldDropdown([
-				["BLACK","0x0000"],
-				["WHITE","0xFFFF"],
-				["RED","0xF800"],
-				["GREEN","0x07E0"],
-				["BLUE","0x001F"]]),
-				"bColor");
+				.appendField(new Blockly.FieldColour('#ffffff'), 'bColor');
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
 		this.setColour(160);
@@ -286,13 +294,13 @@ Blockly.Blocks['basic_TFT_setTextColor'] = {
 Blockly.Blocks['basic_TFT_setFonts'] = {
 	init: function() {
 		this.appendDummyInput()
-			.appendField("TFT Text Size:")
+			.appendField("TFT Fonts:")
 			.appendField(new Blockly.FieldDropdown([
-				["09","09"],
-				["12","12"],
-				["18","18"],
-				["24","24"]]),
-				"sText")
+				["Kanit09","09"],
+				["Kanit12","12"],
+				["Kanit18","18"],
+				["Kanit24","24"]]),
+				"sText");
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
 		this.setColour(160);
@@ -300,6 +308,32 @@ Blockly.Blocks['basic_TFT_setFonts'] = {
 		this.setHelpUrl("");
 	}
 };
+
+// Blockly.Blocks['basic_TFT_print_TH'] = {
+// 	init: function() {
+// 		this.appendValueInput("inTEXT")
+// 		  .appendField("TFT Print x:")
+// 		  .appendField(new Blockly.FieldNumber(0, 0, 320), "X")
+// 		  .appendField("y:")
+// 		  .appendField(new Blockly.FieldNumber(0, 0, 240), "Y")
+// 		  .appendField("message:")
+// 		  .appendField(new Blockly.FieldTextInput("สวัสดี KB-IDE"), "TEXT")
+// 		  .appendField("+");
+// 		this.appendDummyInput()
+// 		  .appendField("Fonts Kanit ")
+// 		  .appendField(new Blockly.FieldDropdown([
+// 			  ["09","09"],
+// 			  ["12","12"],
+// 			  ["18","18"],
+// 			  ["24","24"]]),
+// 			  "sText");
+// 		this.setPreviousStatement(true, null);
+// 		this.setNextStatement(true, null);
+// 		this.setColour(160);
+// 		this.setTooltip("display thai fonts");
+// 		this.setHelpUrl("");
+// 	}
+// };
 
 Blockly.Blocks['basic_TFT_print_TH'] = {
 	init: function() {
@@ -316,7 +350,7 @@ Blockly.Blocks['basic_TFT_print_TH'] = {
 		this.setTooltip("display thai fonts");
 		this.setHelpUrl("");
 	}
-  };
+};
 
 Blockly.Blocks['basic_TFT_clearPixel'] = {
     init: function() {

@@ -627,6 +627,7 @@ class TFT_eSPI : public Print {
 
            // Unicode - Jimmy
            drawUTF8String(const char *string, int poX, int poY, int font),
+           drawUTF8String(double d, int poX, int poY, int font),
 
            // Handle String type
            drawString(const String& string, int poX, int poY, int font),

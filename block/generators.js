@@ -41,7 +41,7 @@ Blockly.JavaScript['basic_led16x8_clr'] = function(block) {
 Blockly.JavaScript['basic_led16x8_2chars'] = function(block) {
 	var argument0 = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
     //var argument0 = Blockly.JavaScript.valueToCode(block);
-	var code = 'KBX.matrix.clear();\n KBX.matrix.setCursor(0, 0);\n KBX.matrix.print(String(' + argument0 + '));\n KBX.matrix.writeDisplay();\n';
+	var code = ' KBX.matrix.clear();\n KBX.matrix.setCursor(0, 0);\n KBX.matrix.print(String(' + argument0 + '));\n KBX.matrix.writeDisplay();\n';
 	return code;
 };
 
@@ -82,7 +82,15 @@ Blockly.JavaScript['basic_TFT_setRotation'] = function(block) {
 };
 
 Blockly.JavaScript['basic_TFT_fillScreen'] = function(block) {
-	var code = 'KBX.Lcd.fillScreen('+block.getFieldValue('COLOR')+');\n';
+	let color = block.getFieldValue('COLOR');
+	color = color.replace("#", "0x");
+	let sourceColor = parseInt(color, 16);
+	let red = (sourceColor & 0x00FF0000) >> 16;
+	let green = (sourceColor & 0x0000FF00) >> 8;
+	let blue =  sourceColor & 0x000000FF;
+	let out = (red >> 3 << 11) + (green >> 2 << 5) + (blue >> 3);
+	out = out.toString(16);
+	var code = 'KBX.Lcd.fillScreen(0x'+out+');\n';
 	return code;
 };
 
@@ -97,8 +105,32 @@ Blockly.JavaScript['basic_TFT_print'] = function(block) {
 	return code;
 };
 
+
+
+function rgbto16bit(colorIN) {
+	let color = colorIN.replace("#", "0x");
+	let sourceColor = parseInt(color, 16);
+	let red = (sourceColor & 0x00FF0000) >> 16;
+	let green = (sourceColor & 0x0000FF00) >> 8;
+	let blue =  sourceColor & 0x000000FF;
+	let out = (red >> 3 << 11) + (green >> 2 << 5) + (blue >> 3);
+	out = out.toString(16)
+	return out;   // The function returns the product of p1 and p2
+  }
+
 Blockly.JavaScript['basic_TFT_setTextColor'] = function(block) {
-	var code = 'KBX.Lcd.setTextColor('+block.getFieldValue('tColor')+', '+block.getFieldValue('bColor')+');\n';
+	// let color = block.getFieldValue('tColor');
+	// color = color.replace("#", "0x");
+	// let sourceColor = parseInt(color, 16);
+	// let red = (sourceColor & 0x00FF0000) >> 16;
+	// let green = (sourceColor & 0x0000FF00) >> 8;
+	// let blue =  sourceColor & 0x000000FF;
+	// let out = (red >> 3 << 11) + (green >> 2 << 5) + (blue >> 3);
+	// out = out.toString(16);
+	
+	// var code = 'KBX.Lcd.fillScreen(0x'+out+');\n';
+	var code = 'KBX.Lcd.setTextColor(0x'+rgbto16bit(block.getFieldValue('tColor'))+', 0x'+rgbto16bit(block.getFieldValue('bColor'))+');\n';
+	// var code = 'KBX.Lcd.setTextColor('+block.getFieldValue('tColor')+', '+block.getFieldValue('bColor')+');\n';
 	return code;
 };
 
@@ -108,9 +140,11 @@ Blockly.JavaScript['basic_TFT_setFonts'] = function(block) {
 };
 
 Blockly.JavaScript['basic_TFT_print_TH'] = function(block) {
-	//var argument0 = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
-	var code = 'KBX.Lcd.spi_init();\n KBX.Lcd.drawUTF8String("'+block.getFieldValue('TEXT')+'", '+block.getFieldValue('X')+', '+block.getFieldValue('Y')+'+KBX.Lcd.fontHeight(1), 1);\n';
-	return code;
+	// var argument0 = Blockly.JavaScript.valueToCode(block, 'inTEXT', Blockly.JavaScript.ORDER_ATOMIC);
+	// var code1 = ' KBX.Lcd.spi_init();\n KBX.Lcd.setUTF8Font(CF_KN_REG_'+block.getFieldValue('sText')+'_EN, CF_KN_REG_'+block.getFieldValue('sText')+'_TH, NULL);\n'
+	var code1 = ' KBX.Lcd.spi_init();\n'
+	var code2 = ' KBX.Lcd.drawUTF8String("'+block.getFieldValue('TEXT')+'", '+block.getFieldValue('X')+', '+block.getFieldValue('Y')+', 1);\n';
+	return code1 + code2;
 };
 
 Blockly.JavaScript['basic_TFT_clearPixel'] = function(block) {

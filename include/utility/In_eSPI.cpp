@@ -4612,6 +4612,10 @@ size_t TFT_eSPI::write(const uint8_t *s, size_t size)
 }
 
 
+int16_t TFT_eSPI::drawUTF8String(double d, int poX, int poY, int font) {
+  return this->drawUTF8String(String(d).c_str(), poX, poY, font);
+}
+
 int16_t TFT_eSPI::drawUTF8String(const char *s, int poX, int poY, int font)
 {
     int txBuffer[256];
