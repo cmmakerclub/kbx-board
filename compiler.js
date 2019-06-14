@@ -1,51 +1,48 @@
 const fs = require("fs");
 const path = require("path");
-var engine = Vue.prototype.$engine;
-var G = Vue.prototype.$global;
+const engine = Vue.prototype.$engine;
+const G = Vue.prototype.$global;
 const mkdirp = engine.util.requireFunc("mkdirp");
+
 //---- setup dir and config ----//
-var boardDirectory = `${engine.util.boardDir}/${G.board.board}`;
-var pluginDir = `${boardDirectory}/plugin`;
-var boardIncludeDir = `${boardDirectory}/include`;
-var platfromIncludeDir = `${boardDirectory}/include`;
-
-var context = JSON.parse(
-    fs.readFileSync(boardDirectory + "/context.json", "utf8"));
-var config = require("./config");
-var platformDir = `${engine.util.platformDir}/${config.platform}`;
-var platformCompiler = engine.util.requireFunc(`${platformDir}/compiler`);
-
-function is_not_null(val) {
-  return (!((val == null) || (typeof (val) == "undefined")));
-}
+let config = require("./config");
+let boardDirectory = `${engine.util.boardDir}/${config.name}`;
+let platformDirectory = `${engine.util.platformDir}/${config.platform}`;
+let boardIncludeDir = `${boardDirectory}/include`;
+let platformIncludeDir = `${platformDirectory}/include`;
+let context = JSON.parse(fs.readFileSync(boardDirectory + "/context.json", "utf8"));
+let platformCompiler = engine.util.requireFunc(`${platformDirectory}/compiler`);
 
 function compile(rawCode, boardName, config, cb) {
+  console.log(`[kbpro] compiler.compile platformDir = ${platformDirectory}`);
   return new Promise((resolve, reject) => {
     //--- init ---//
+    let codegen = null;
     if (fs.existsSync(`${boardDirectory}/codegen.js`)) {
-      var codegen = require("./codegen");
+      codegen = require("./codegen");
     } else {
-      var codegen = engine.util.requireFunc(`${platformDir}/codegen`);
+      codegen = engine.util.requireFunc(`${platformDirectory}/codegen`);
     }
     //---- inc folder ----//
-    var app_dir = `${boardDirectory}/build/${boardName}`;
-    let inc_src = engine.util.walk(boardIncludeDir).
-    filter(file => path.extname(file) == ".cpp" || path.extname(file) == ".c");
-    inc_src = inc_src.concat(engine.util.walk(platfromIncludeDir).
-                             filter(file => path.extname(file) == ".cpp" ||
-                                 path.extname(file) == ".c"));
+    let app_dir = `${boardDirectory}/build/${boardName}`;
+    let inc_src = engine.util.walk(boardIncludeDir)
+    .filter(file => path.extname(file) === ".cpp" || path.extname(file) === ".c");
+    inc_src = inc_src.concat(engine.util.walk(platformIncludeDir)
+    .filter(file => path.extname(file) === ".cpp" || path.extname(file) === ".c"));
     let inc_switch = [];
     //--- step 1 load template and create full code ---//
+    let sourceCode = null
+    let codeContext = null;
     if (config.isSourceCode) {
-      var sourceCode = rawCode;
+      sourceCode = rawCode;
       //searching all include to find matched used plugin file
-      var codeContext = {
+      codeContext = {
         plugins_sources: [],
         plugins_includes_switch: [],
       };
       let pluginInfo = G.plugin.pluginInfo;
       let incsRex = /#include\s*(?:\<|\")(.*?\.h)(?:\>|\")/gm;
-      var m;
+      let m;
       while (m = incsRex.exec(sourceCode)) {
         let incFile = m[1].trim();
         //lookup plugin
@@ -60,7 +57,9 @@ function compile(rawCode, boardName, config, cb) {
         }
       }
     } else {
-      var {sourceCode, codeContext} = codegen.generate(rawCode);
+      let res = codegen.generate(rawCode);
+      sourceCode = res.sourceCode;
+      codeContext = res.codeContext;
     }
     //----- plugin file src ----//
     inc_src = inc_src.concat(codeContext.plugins_sources);
@@ -73,9 +72,9 @@ function compile(rawCode, boardName, config, cb) {
     //-----------------------------------------------------//
     fs.writeFileSync(`${app_dir}/user_app.cpp`, sourceCode, "utf8");
     //--- step 3 load variable and flags ---//
-    var cflags = [];
-    var ldflags = [];
-    var libflags = [];
+    let cflags = [];
+    let ldflags = [];
+    let libflags = [];
     if (context.cflags) {
       cflags = context.cflags.map(f => f.replace(/\{board\}/g, boardDirectory));
     }
@@ -88,7 +87,7 @@ function compile(rawCode, boardName, config, cb) {
           f => f.replace(/\{board\}/g, boardDirectory));
     }
     //--- step 4 compile
-    var contextBoard = {
+    let contextBoard = {
       board_name: boardName,
       app_dir: app_dir,
       process_dir: boardDirectory,
@@ -97,23 +96,15 @@ function compile(rawCode, boardName, config, cb) {
 
     inc_src.push(`${app_dir}/user_app.cpp`);
     platformCompiler.setConfig(contextBoard);
-    //(sources, boardCppOptions, boardcflags, plugins_includes_switch -Ixxx/xxx)
+
     engine.util.promiseTimeout(1000).then(() => {
       return platformCompiler.compileFiles(inc_src, [], cflags, inc_switch);
     }).then(() => {
-      return engine.util.promiseTimeout(10000);
-    }).then(() => {
       return platformCompiler.archiveProgram(inc_src);
-    }).then(() => {
-      return engine.util.promiseTimeout(1000);
     }).then(() => {
       return platformCompiler.linkObject(ldflags, libflags);
     }).then(() => {
-      return engine.util.promiseTimeout(1000);
-    }).then(() => {
       return platformCompiler.createBin();
-    }).then(() => {
-      return engine.util.promiseTimeout(1000);
     }).then(() => {
       resolve();
     }).catch(msg => {
@@ -122,17 +113,16 @@ function compile(rawCode, boardName, config, cb) {
         console.error("[KBX compiler.js] ", msg.error.stderr);
       else
         console.error(`unknown error`);
+
       reject(msg);
     });
   });
 }
 
-var exp = {};
+let exp = {};
 Object.assign(exp, platformCompiler);
-Object.assign(exp,
-              {
-                compile,
-              },
-);
+Object.assign(exp, {
+  compile,
+});
 //console.log(exp);
 module.exports = exp;
