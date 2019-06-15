@@ -6,7 +6,7 @@ module.exports = {
   author: "Maker Asia",
   website: "",
   email: "makerasia@gmail.com",
-  git: "http://github.com/cmmakerclub/kbx-board/",
+  git: "https://github.com/cmmakerclub/kbx-board/",
   image: "/static/display.jpg",
-  version: "1.0.0",
+  version: "1.0.1",
 };
