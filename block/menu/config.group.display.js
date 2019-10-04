@@ -39,10 +39,43 @@ module.exports = {
                                    </value>
                                </block>`
         },
+        {
+            xml:
+                `<block type="i2c128x64_display_image">
+                             <value name="img">
+                                 <block type="variables_get">
+                                     <field name="VAR">img1</field>
+                                 </block>
+                             </value>
+                             <value name="x">
+                                 <shadow type="math_number">
+                                     <field name="NUM">0</field>
+                                 </shadow>
+                             </value>
+                             <value name="x">
+                                 <shadow type="math_number">
+                                     <field name="NUM">0</field>
+                                 </shadow>
+                             </value>
+                             <value name="y">
+                                 <shadow type="math_number">
+                                     <field name="NUM">0</field>
+                                 </shadow>
+                             </value>
+                             <value name="width">
+                                 <shadow type="math_number">
+                                     <field name="NUM">10</field>
+                                 </shadow>
+                             </value>
+                             <value name="height">
+                                 <shadow type="math_number">
+                                     <field name="NUM">10</field>
+                                 </shadow>
+                             </value>
+                         </block>`
+        },
         "basic_TFT_setRotation",
         "basic_TFT_fillScreen",
-        // "basic_TFT_setFonts",
-        // "basic_TFT_setTextColor",
         {
             xml:
                 `<block type="basic_TFT_print">

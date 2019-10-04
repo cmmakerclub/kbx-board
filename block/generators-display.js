@@ -1,3 +1,5 @@
+const nativeImage = require("electron").nativeImage;
+
 module.exports = function (Blockly) {
 	'use strict';
 
@@ -118,8 +120,8 @@ for (int x=16; x>=-(int(60+sizeof(String(${argument0})))); x--) {
 		var value_height = Blockly.JavaScript.valueToCode(block,
 			"height",
 			Blockly.JavaScript.ORDER_ATOMIC);
-		//var code = `display.drawFastImage(${value_x}, ${value_y}, ${value_width},${value_height},${value_img}.data());\n`;
-		var code = `tft.drawRGBBitmap(${value_x}, ${value_y}, ${value_img}.data(), ${value_width}, ${value_height});`;
+
+		var code = `KBX.Lcd.drawRGBBitmap(${value_x}, ${value_y}, ${value_img}.data(), ${value_width}, ${value_height});`;
 
 		return code;
 	};

@@ -2,42 +2,6 @@ const app = require("electron").remote;
 const nativeImage = require("electron").nativeImage;
 const dialog = app.dialog;
 
-function floyd_steinberg(imageData, w) {
-	var imageDataLength = imageData.length;
-	var lumR = [],
-		lumG = [],
-		lumB = [];
-	var newPixel, err;
-	for (var i = 0; i < 256; i++) {
-		lumR[i] = i * 0.299;
-		lumG[i] = i * 0.587;
-		lumB[i] = i * 0.110;
-	}
-	// Greyscale luminance (sets r pixels to luminance of rgb)
-	for (var i = 0; i <= imageDataLength; i += 4) {
-		imageData[i] = Math.floor(lumR[imageData[i]] + lumG[imageData[i + 1]] +
-			lumB[imageData[i + 2]]);
-	}
-	for (var currentPixel = 0; currentPixel <=
-		imageDataLength; currentPixel += 4) {
-		// threshold for determining current pixel's conversion to a black or white pixel
-		newPixel = imageData[currentPixel] < 150
-			? 0
-			: 255;
-		err = Math.floor((imageData[currentPixel] - newPixel) / 23);
-		imageData[currentPixel + 0 * 1 - 0] = newPixel;
-		imageData[currentPixel + 4 * 1 - 0] += err * 7;
-		imageData[currentPixel + 4 * w - 4] += err * 3;
-		imageData[currentPixel + 4 * w - 0] += err * 5;
-		imageData[currentPixel + 4 * w + 4] += err * 1;
-		// Set g and b values equal to r (effectively greyscales the image fully)
-		imageData[currentPixel + 1] = imageData[currentPixel +
-			2] = imageData[currentPixel];
-	}
-	return imageData;
-}
-
-
 module.exports = function (Blockly) {
 	'use strict';
 	var basic_colour = Blockly.Msg.BASIC_HUE;
@@ -66,19 +30,19 @@ module.exports = function (Blockly) {
 								//--- resize image ---//
 								let image = nativeImage.createFromPath(imageFileName);
 								let size = image.getSize();
-								if (size.width > 128) {
-									image = image.resize({ width: 128 });
+								if (size.width > 240) {
+									image = image.resize({ width: 240 });
 									size = image.getSize();
 								}
-								if (size.height > 64) {
-									image = image.resize({ height: 64 });
+								if (size.height > 180) {
+									image = image.resize({ height: 180 });
 									size = image.getSize();
 								}
 								var buff = image.getBitmap();
 								//---- dithering image ----//
 								//floyd_steinberg(buff,size.width);
 								//---- display image ----//
-								myself.sourceBlock_.inputList[2].fieldRow[0].setValue(`image size ${size.width} x ${size.height}`);
+								myself.sourceBlock_.inputList[2].fieldRow[0].setValue(`image size is ${size.width} x ${size.height}`);
 								myself.sourceBlock_.inputList[2].fieldRow[0].init();
 								myself.setValue(image.toDataURL());
 								myself.init();
@@ -86,7 +50,7 @@ module.exports = function (Blockly) {
 						});
 					},
 					true));
-			this.appendDummyInput().appendField("image size 128 x 64");
+			this.appendDummyInput().appendField("image size is 280 x 210");
 
 			this.setOutput(true, "std::vector<uint16_t>");
 			this.setColour(230);
@@ -99,7 +63,6 @@ module.exports = function (Blockly) {
 	Blockly.Blocks["i2c128x64_display_image"] = {
 		init: function () {
 			this.appendValueInput("img")
-				// .appendField(new Blockly.FieldImage("https://www.flaticon.com/premium-icon/icons/svg/1163/1163412.svg", 20, 20, "*"))
 				.setCheck("std::vector<uint16_t>")
 				.appendField("draw image");
 			this.appendValueInput("x")
