@@ -43,3 +43,12 @@ void KB_8x16Matrix::printFloat(int x, int y, float number) {
     matrix.print(String(number));
     matrix.writeDisplay();
 }
+
+void KB_8x16Matrix::drawBitmap(int x, int y, uint8_t *img){
+    matrix.clear();
+    matrix.setCursor(x, y);
+    matrix.setRotation(0);
+    matrix.drawBitmap(0, 0, img, 8, 16, LED_ON);
+    matrix.writeDisplay();
+    matrix.setRotation(1);   
+}

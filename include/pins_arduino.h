@@ -59,6 +59,9 @@ static const uint8_t KB_LDR_PIN = 36;
 static const uint8_t KB_BUTTON1 = 16;
 static const uint8_t KB_BUTTON2 = 14;
 
+static const uint8_t KB_TFT_SW1 = 33;
+static const uint8_t KB_TFT_SW2 = 34;
+static const uint8_t KB_TFT_SW3 = 35;
 
 static const uint8_t KB_LED_BT = 17;
 static const uint8_t KB_LED_WIFI = 2;
@@ -66,6 +69,7 @@ static const uint8_t KB_LED_NTP = 15;
 static const uint8_t KB_LED_IOT = 12;
 
 static const uint8_t KB_BUZZER = 13;
+static const uint8_t KB_SPEAKER = 26;
 
 static const uint8_t KB_INPUT1 = 32;
 static const uint8_t KB_INPUT2 = 33;

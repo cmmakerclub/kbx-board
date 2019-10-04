@@ -2,7 +2,6 @@
 #include <Wire.h>
 
 void KB_LM73::begin(void) {
-
     Wire1.begin(4, 5);
 }
 

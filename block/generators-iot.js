@@ -95,4 +95,23 @@ Blockly.JavaScript['push_notification'] = function(block) {
   return code;
 };
 
+Blockly.JavaScript['mqtt_connector'] = function(block) {
+  var text_prefix = block.getFieldValue('PREFIX');
+  var text_device = block.getFieldValue('DEVICE');
+  var text_ssid = block.getFieldValue('SSID');
+  var text_psk = block.getFieldValue('PSK');
+  // TODO: Assemble JavaScript into code variable.
+  var code = '...;\n';
+  return code;
+};
+
+Blockly.JavaScript['mqtt_write'] = function(block) {
+  // mqtt->sync_advpub("", "kbproide/kbpro-mqtt-001/$/command", "ON", false);
+  // var code = 'board.pinWrite(KB_USB,' + block.getFieldValue('STATUS') + ');\n';
+  var text_device = block.getFieldValue('DEVICE');
+  var dropdown_status = block.getFieldValue('STATUS');
+  var code = 'mqtt->sync_advpub("", "kbproide/'+ text_device +'/$/command", "'+ dropdown_status +'", false);\n';
+	return code;
+};
+
 }

@@ -17,6 +17,7 @@ class KB_8x16Matrix
   void printText(int x, int y, String text);
   void printNumber(int x, int y, int number);
   void printFloat(int x, int y, float number);
+  void drawBitmap(int x, int y, uint8_t *img);
 
 
  protected:

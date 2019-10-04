@@ -620,12 +620,14 @@ class TFT_eSPI : public Print {
            drawFloat(float floatNumber,int decimal,int poX, int poY),
 
            // Handle char arrays
+           drawString(String *string, int poX, int poY, int font),
            drawString(const char *string, int poX, int poY, int font),
            drawString(const char *string, int poX, int poY),
            drawCentreString(const char *string, int dX, int poY, int font), // Deprecated, use setTextDatum() and drawString()
            drawRightString(const char *string, int dX, int poY, int font),  // Deprecated, use setTextDatum() and drawString()
 
            // Unicode - Jimmy
+          //  drawUTF8String(String *string, int poX, int poY, int font),
            drawUTF8String(const char *string, int poX, int poY, int font),
            drawUTF8String(double d, int poX, int poY, int font),
 

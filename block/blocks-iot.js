@@ -38,7 +38,7 @@ Blockly.Blocks["gauge_iot"] = {
 			"nextStatement": null,
 			"colour": gauge_colour,
 			"tooltip": Blockly.Msg.GAUGE_IOT_TOOLTIP,
-			"helpUrl": Blockly.Msg.GAUGE_IOT_HELPURL
+  			"helpUrl": Blockly.Msg.GAUGE_IOT_HELPURL
 		});
 	}
 };
@@ -76,7 +76,7 @@ Blockly.Blocks["gauge_title"] = {
 			"nextStatement": null,
 			"colour": gauge_colour,
 			"tooltip": Blockly.Msg.GAUGE_TITLE_TOOLTIP,
-			"helpUrl": Blockly.Msg.GAUGE_TITLE_HELPURL
+  			"helpUrl": Blockly.Msg.GAUGE_TITLE_HELPURL
 		});
 	}
 };
@@ -114,7 +114,7 @@ Blockly.Blocks["gauge_unit"] = {
 			"nextStatement": null,
 			"colour": gauge_colour,
 			"tooltip": Blockly.Msg.GAUGE_UNIT_TOOLTIP,
-			"helpUrl": Blockly.Msg.GAUGE_UNIT_HELPURL
+  			"helpUrl": Blockly.Msg.GAUGE_UNIT_HELPURL
 		});
 	}
 };
@@ -149,7 +149,7 @@ Blockly.Blocks['gauge_color'] = {
 			"nextStatement": null,
 			"colour": gauge_colour,
 			"tooltip": Blockly.Msg.GAUGE_COLOR_TOOLTIP,
-			"helpUrl": Blockly.Msg.GAUGE_COLOR_HELPURL
+  			"helpUrl": Blockly.Msg.GAUGE_COLOR_HELPURL
 		});
 	}
 };
@@ -241,7 +241,7 @@ Blockly.Blocks["feed_iot"] = {
 			"nextStatement": null,
 			"colour": feed_colour,
 			"tooltip": Blockly.Msg.FEED_IOT_TOOLTIP,
-			"helpUrl": Blockly.Msg.FEED_IOT_HELPURL
+  			"helpUrl": Blockly.Msg.FEED_IOT_HELPURL
 		});
 	}
 };
@@ -279,7 +279,7 @@ Blockly.Blocks["feed_title"] = {
 			"nextStatement": null,
 			"colour": feed_colour,
 			"tooltip": Blockly.Msg.FEED_TITLE_TOOLTIP,
-			"helpUrl": Blockly.Msg.FEED_TITLE_HELPURL
+  			"helpUrl": Blockly.Msg.FEED_TITLE_HELPURL
 		});
 	}
 };
@@ -303,7 +303,7 @@ Blockly.Blocks["feed_main_title"] = {
 			"nextStatement": null,
 			"colour": feed_colour,
 			"tooltip": Blockly.Msg.FEED_MAIN_TITLE_TOOLTIP,
-			"helpUrl": Blockly.Msg.FEED_MAIN_TITLE_HELPURL
+  			"helpUrl": Blockly.Msg.FEED_MAIN_TITLE_HELPURL
 		});
 	}
 };
@@ -341,7 +341,7 @@ Blockly.Blocks["feed_unit"] = {
 			"nextStatement": null,
 			"colour": feed_colour,
 			"tooltip": Blockly.Msg.FEED_UNIT_TOOLTIP,
-			"helpUrl": Blockly.Msg.FEED_UNIT_HELPURL
+  			"helpUrl": Blockly.Msg.FEED_UNIT_HELPURL
 		});
 	}
 };
@@ -453,11 +453,49 @@ Blockly.Blocks["push_notification"] = {
 			    }
 			  ],
 			  "previousStatement": null,
-			  "nextStatement": null,
-			  "colour": gauge_colour,
-			  "tooltip": Blockly.Msg.PUSH_NOTIFICATION_TOOLTIP,
-		  "helpUrl": Blockly.Msg.PUSH_NOTIFICATION_HELPURL
+  			  "nextStatement": null,
+  			  "colour": gauge_colour,
+  			  "tooltip": Blockly.Msg.PUSH_NOTIFICATION_TOOLTIP,
+    		  "helpUrl": Blockly.Msg.PUSH_NOTIFICATION_HELPURL
 		});
+	}
+};
+
+Blockly.Blocks['mqtt_connector'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("prefix")
+        .appendField(new Blockly.FieldTextInput("KBPRO"), "PREFIX")
+        .appendField("device name")
+        .appendField(new Blockly.FieldTextInput("my-device-001"), "DEVICE")
+        .appendField("wifi name")
+        .appendField(new Blockly.FieldTextInput("ampere"), "SSID")
+        .appendField("wifi password")
+        .appendField(new Blockly.FieldTextInput("espertap"), "PSK");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(20);
+ 		this.setTooltip("");
+ 		this.setHelpUrl("");
+  }
+};
+
+Blockly.Blocks["mqtt_write"] = {
+	init: function() {
+		this.appendDummyInput()
+			.appendField("Device name")
+			.appendField(new Blockly.FieldTextInput("kbpro-001"), "DEVICE")
+			.appendField(Blockly.Msg.USBSW_WRITE_STATUS)
+			.appendField(new Blockly.FieldDropdown([
+				["ON", "ON"],
+				["OFF", "OFF"]
+			]), 'STATUS');
+		this.setInputsInline(true);
+		this.setPreviousStatement(true);
+		this.setNextStatement(true);
+		this.setColour(20);
+		this.setTooltip("");
+ 		this.setHelpUrl("");
 	}
 };
 

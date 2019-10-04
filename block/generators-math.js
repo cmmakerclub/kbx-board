@@ -4,7 +4,7 @@ module.exports = function(Blockly){
 Blockly.JavaScript['math_random_int'] = function(block) {
     var num1 = block.getFieldValue('FROM') || '0';
     var num2 = block.getFieldValue('TO') || '0';
-
+	
 	console.log(num1, num2)
 	if (num2 > num1){
         var code = 'rand() % ' + num2 + ' + ' + num1;
@@ -63,14 +63,14 @@ Blockly.JavaScript['math_trig'] = function(block) {
 
     switch (operator) {
         case 'SIN':
-		code = 'sin (' + arg + ' * PI/180.0)';
-		break;
+          	code = 'sin (' + arg + ' * PI/180.0)';
+          	break;
         case 'COS':
-		code = 'cos (' + arg + ' * PI/180.0)';
-		break;
+          	code = 'cos (' + arg + ' * PI/180.0)';
+          	break;
         case 'TAN':
-		code = 'tan (' + arg + ' * PI/180.0)';
-			break;
+          	code = 'tan (' + arg + ' * PI/180.0)';
+		  	break;
 		case 'ASIN':
 			code = 'asin(' + arg + ') * 180.0 / PI';
 			break;
@@ -90,7 +90,7 @@ Blockly.JavaScript['math_round'] = function(block) {
 	var operator = block.getFieldValue('OP');
     var code;
 	var arg = Blockly.JavaScript.valueToCode(block, 'NUM', Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
-
+	
 	switch (operator) {
 		case 'ROUND':
 			code = '(double)round(' + arg + ')';
@@ -147,4 +147,4 @@ Blockly.JavaScript['convert_ra_de'] = function(block) {
 	}
 	return [code, Blockly.JavaScript.ORDER_ATOMIC];
 }
-}
+};
