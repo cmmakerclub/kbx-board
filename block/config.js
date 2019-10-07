@@ -8,10 +8,6 @@ let kbx = require("./menu/config.group.kbxio");
 // let common = require("./menu/config.group.common");
 
 module.exports = {
-  initial_blocks: `<xml>
-                            <block type="arduino_init" deletable="false" x="-100" y="-50"></block>
-                            <block type="arduino_loop" deletable="false" x="100" y="-50"></block>
-                      </xml>`,
   blocks: [
     gpio,
     display,
