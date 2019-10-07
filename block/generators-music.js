@@ -68,7 +68,6 @@ music.begin(${dropdown_channel});
 
   Blockly.JavaScript["music_play_notes"] = function (block) {
     let number_duration = block.getFieldValue("DURATION");
-    let dropdown_instrument = block.getFieldValue("instrument");
     let value_note = Blockly.JavaScript.valueToCode(block, "note", Blockly.JavaScript.ORDER_NONE);
     let code = `music.song(${value_note},${number_duration});\n`;
     return code;

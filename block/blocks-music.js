@@ -9,23 +9,11 @@ module.exports = function (Blockly) {
 	// var music_colour="#FB8CC3";
 	Blockly.Blocks["music_duration_opt"] = [
 		[{
-			'src': '/static/block_icons/notes/whole.svg',
+			'src': '/static/block_icons/notes/sixteenth.svg',
 			'width': 20,
 			'height': 20,
 			'alt': 'Whole'
-		}, "4000"],
-		[{
-			'src': '/static/block_icons/notes/half.svg',
-			'width': 20,
-			'height': 20,
-			'alt': 'Whole'
-		}, "2000"],
-		[{
-			'src': '/static/block_icons/notes/quarter.svg',
-			'width': 20,
-			'height': 20,
-			'alt': 'Whole'
-		}, "1000"],
+		}, "250"],
 		[{
 			'src': '/static/block_icons/notes/eighth.svg',
 			'width': 20,
@@ -33,11 +21,23 @@ module.exports = function (Blockly) {
 			'alt': 'Whole'
 		}, "500"],
 		[{
-			'src': '/static/block_icons/notes/sixteenth.svg',
+			'src': '/static/block_icons/notes/quarter.svg',
 			'width': 20,
 			'height': 20,
 			'alt': 'Whole'
-		}, "250"]
+		}, "1000"],
+		[{
+			'src': '/static/block_icons/notes/half.svg',
+			'width': 20,
+			'height': 20,
+			'alt': 'Whole'
+		}, "2000"],
+		[{
+			'src': '/static/block_icons/notes/whole.svg',
+			'width': 20,
+			'height': 20,
+			'alt': 'Whole'
+		}, "4000"]
 	];
 
 	Blockly.Blocks['music_begin'] = {
@@ -89,6 +89,7 @@ module.exports = function (Blockly) {
 				return e;
 			};
 			this.appendDummyInput()
+				.appendField("buzzer note")
 				.appendField(new Blockly.FieldImage("/static/icons/icons8_move_24px.png", 15, 15, "move"))
 				.appendField(f, "notes");
 			this.setInputsInline(true);
@@ -943,6 +944,7 @@ module.exports = function (Blockly) {
 				return e;
 			};
 			this.appendDummyInput()
+				.appendField("speaker note")
 				.appendField(new Blockly.FieldImage("/static/icons/icons8_move_24px.png", 15, 15, "move"))
 				.appendField(f, "notes");
 			this.setInputsInline(true);
@@ -1004,7 +1006,7 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendDummyInput()
 				.appendField("set volume (0-10)")
-				.appendField(new Blockly.FieldNumber(0, 0, 10), "volume");
+				.appendField(new Blockly.FieldNumber(10, 0, 10), "volume");
 			this.setPreviousStatement(true, null);
 			this.setNextStatement(true, null);
 			this.setColour(315);

@@ -106,8 +106,8 @@ void KBSound::setVolume(int level)
   if(level < 0){
     level = 0;
   }
-  if(level > 10){
-    level = 10;
+  if(level > 100){
+    level = 100;
   }
   kbsound_volume = level;
 }
