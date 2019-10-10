@@ -113,6 +113,77 @@ module.exports = {
                 </block>`
         },
         'basic_string_TH',
-        "basic_TFT_clearPixel"
+        "basic_TFT_clearPixel",
+        'tft_display_setRotation',
+        {
+            xml:
+                `<block type="tft_display_draw_line">
+                            <value name="x0">
+                                <shadow type="math_number">
+                                    <field name="NUM">10</field>
+                                </shadow>
+                            </value>
+                            <value name="y0">
+                                <shadow type="math_number">
+                                    <field name="NUM">10</field>
+                                </shadow>
+                            </value>
+                            <value name="x1">
+                                <shadow type="math_number">
+                                    <field name="NUM">100</field>
+                                </shadow>
+                            </value>
+                            <value name="y1">
+                                <shadow type="math_number">
+                                    <field name="NUM">50</field>
+                                </shadow>
+                            </value>
+                        </block>`
+        },
+        {
+            xml:
+                `<block type="tft_display_draw_rect">
+                            <value name="x">
+                                <shadow type="math_number">
+                                    <field name="NUM">10</field>
+                                </shadow>
+                            </value>
+                            <value name="y">
+                                <shadow type="math_number">
+                                    <field name="NUM">10</field>
+                                </shadow>
+                            </value>
+                            <value name="width">
+                                <shadow type="math_number">
+                                    <field name="NUM">50</field>
+                                </shadow>
+                            </value>
+                            <value name="height">
+                                <shadow type="math_number">
+                                    <field name="NUM">30</field>
+                                </shadow>
+                            </value>
+                        </block>`
+        },
+        {
+            xml:
+                `<block type="tft_display_draw_circle">
+                            <value name="x">
+                                <shadow type="math_number">
+                                    <field name="NUM">64</field>
+                                </shadow>
+                            </value>
+                            <value name="y">
+                                <shadow type="math_number">
+                                    <field name="NUM">32</field>
+                                </shadow>
+                            </value>
+                            <value name="r">
+                                <shadow type="math_number">
+                                    <field name="NUM">20</field>
+                                </shadow>
+                            </value>
+                        </block>`
+        }
     ]
 };

@@ -1,14 +1,14 @@
-module.exports = function(Blockly){
-'use strict';
-// =============================================================================
-//math Addiditon
-// =============================================================================
-Blockly.Blocks["math_single"] = {
-	init: function () {
-		this.jsonInit({
-			"type": "math_single",
-			"message0": "%1 %2",
-			"args0": [{
+module.exports = function (Blockly) {
+	'use strict';
+	// =============================================================================
+	//math Addiditon
+	// =============================================================================
+	Blockly.Blocks["math_single"] = {
+		init: function () {
+			this.jsonInit({
+				"type": "math_single",
+				"message0": "%1 %2",
+				"args0": [{
 					"type": "field_dropdown",
 					"name": "OP",
 					"options": [
@@ -26,20 +26,20 @@ Blockly.Blocks["math_single"] = {
 					"name": "NUM",
 					"check": "Number"
 				}
-			],
-			"output": "Number",
-			"colour": Blockly.Msg.MATH_HUE,
-			"helpUrl": "%{BKY_MATH_SINGLE_HELPURL}",
-			"extensions": ["math_op_tooltip"]
-		});
+				],
+				"output": "Number",
+				"colour": Blockly.Msg.MATH_HUE,
+				"helpUrl": "%{BKY_MATH_SINGLE_HELPURL}",
+				"extensions": ["math_op_tooltip"]
+			});
+		}
 	}
-}
-Blockly.Blocks['math_trig'] = {
-	init: function () {
-		this.jsonInit({
-			"type": "math_trig",
-			"message0": "%1 %2",
-			"args0": [{
+	Blockly.Blocks['math_trig'] = {
+		init: function () {
+			this.jsonInit({
+				"type": "math_trig",
+				"message0": "%1 %2",
+				"args0": [{
 					"type": "field_dropdown",
 					"name": "OP",
 					"options": [
@@ -56,20 +56,20 @@ Blockly.Blocks['math_trig'] = {
 					"name": "NUM",
 					"check": "Number"
 				}
-			],
-			"output": "Number",
-			"colour": Blockly.Msg.MATH_HUE,
-			"helpUrl": "%{BKY_MATH_TRIG_HELPURL}",
-			"extensions": ["math_op_tooltip"]
-		});
+				],
+				"output": "Number",
+				"colour": Blockly.Msg.MATH_HUE,
+				"helpUrl": "%{BKY_MATH_TRIG_HELPURL}",
+				"extensions": ["math_op_tooltip"]
+			});
+		}
 	}
-}
-Blockly.Blocks['math_round'] = {
-	init: function () {
-		this.jsonInit({
-			"type": "math_round",
-			"message0": "%1 %2",
-			"args0": [{
+	Blockly.Blocks['math_round'] = {
+		init: function () {
+			this.jsonInit({
+				"type": "math_round",
+				"message0": "%1 %2",
+				"args0": [{
 					"type": "field_dropdown",
 					"name": "OP",
 					"options": [
@@ -83,51 +83,51 @@ Blockly.Blocks['math_round'] = {
 					"name": "NUM",
 					"check": "Number"
 				}
-			],
-			"output": "Number",
-			"colour": Blockly.Msg.MATH_HUE,
-			"helpUrl": "%{BKY_MATH_ROUND_HELPURL}",
-			"tooltip": "%{BKY_MATH_ROUND_TOOLTIP}"
-		});
+				],
+				"output": "Number",
+				"colour": Blockly.Msg.MATH_HUE,
+				"helpUrl": "%{BKY_MATH_ROUND_HELPURL}",
+				"tooltip": "%{BKY_MATH_ROUND_TOOLTIP}"
+			});
+		}
 	}
-}
-Blockly.Blocks['math_random_int'] = {
-	init: function () {
-		this.jsonInit({
-			"type": "math_random_int",
-			"message0": "%{BKY_MATH_RANDOM_INT_TITLE}",
-			"args0": [
-				{
-					"type": "field_number",
-					"name": "FROM",
-					"value": 0,
-					"min": -9999999,
-					"max": 9999999,
-					"precision": 1
-				  },
-				{
-					"type": "field_number",
-					"name": "TO",
-					"value": 100,
-					"min": -9999999,
-					"max": 9999999,
-					"precision": 1
-				  }
-			],
-			"inputsInline": true,
-			"output": "Number",
-			"colour": Blockly.Msg.MATH_HUE,
-			"tooltip": "%{BKY_MATH_RANDOM_INT_TOOLTIP}",
-			"helpUrl": "%{BKY_MATH_RANDOM_INT_HELPURL}"
-		});
+	Blockly.Blocks['math_random_int'] = {
+		init: function () {
+			this.jsonInit({
+				"type": "math_random_int",
+				"message0": "%{BKY_MATH_RANDOM_INT_TITLE}",
+				"args0": [
+					{
+						"type": "field_number",
+						"name": "FROM",
+						"value": 0,
+						"min": -9999999,
+						"max": 9999999,
+						"precision": 1
+					},
+					{
+						"type": "field_number",
+						"name": "TO",
+						"value": 100,
+						"min": -9999999,
+						"max": 9999999,
+						"precision": 1
+					}
+				],
+				"inputsInline": true,
+				"output": "Number",
+				"colour": Blockly.Msg.MATH_HUE,
+				"tooltip": "%{BKY_MATH_RANDOM_INT_TOOLTIP}",
+				"helpUrl": "%{BKY_MATH_RANDOM_INT_HELPURL}"
+			});
+		}
 	}
-}
-Blockly.Blocks['math_pow'] = {
-	init: function () {
-		this.jsonInit({
-			"type": "math_pow",
-			"message0": "%1 " + Blockly.Msg.MATH_POW_TITLE + " %2",
-			"args0": [{
+	Blockly.Blocks['math_pow'] = {
+		init: function () {
+			this.jsonInit({
+				"type": "math_pow",
+				"message0": "%1 " + Blockly.Msg.MATH_POW_TITLE + " %2",
+				"args0": [{
 					"type": "input_value",
 					"name": "NUM1",
 					"check": "Number"
@@ -137,21 +137,21 @@ Blockly.Blocks['math_pow'] = {
 					"name": "NUM2",
 					"check": "Number"
 				}
-			],
-			"inputsInline": true,
-			"output": "Number",
-			"colour": Blockly.Msg.MATH_HUE,
-			"tooltip": Blockly.Msg.MATH_POW_TOOLTIP,
-			"helpUrl": Blockly.Msg.MATH_POW_HELPURL
-		});
+				],
+				"inputsInline": true,
+				"output": "Number",
+				"colour": Blockly.Msg.MATH_HUE,
+				"tooltip": Blockly.Msg.MATH_POW_TOOLTIP,
+				"helpUrl": Blockly.Msg.MATH_POW_HELPURL
+			});
+		}
 	}
-}
-Blockly.Blocks['math_number_property'] = {
-	init: function () {
-		this.jsonInit({
-			"type": "math_number_property",
-			"message0": "%1 %2",
-			"args0": [{
+	Blockly.Blocks['math_number_property'] = {
+		init: function () {
+			this.jsonInit({
+				"type": "math_number_property",
+				"message0": "%1 %2",
+				"args0": [{
 					"type": "input_value",
 					"name": "NUMBER_TO_CHECK",
 					"check": "Number"
@@ -167,46 +167,79 @@ Blockly.Blocks['math_number_property'] = {
 						["%{BKY_MATH_IS_NEGATIVE}", "NEGATIVE"],
 					]
 				}
-			],
-			"inputsInline": true,
-			"output": "Boolean",
-			"colour": Blockly.Msg.MATH_HUE,
-			"tooltip": "%{BKY_MATH_IS_TOOLTIP}",
-			"mutator": "math_is_divisibleby_mutator"
-		});
+				],
+				"inputsInline": true,
+				"output": "Boolean",
+				"colour": Blockly.Msg.MATH_HUE,
+				"tooltip": "%{BKY_MATH_IS_TOOLTIP}",
+				"mutator": "math_is_divisibleby_mutator"
+			});
+		}
 	}
-}
 
-Blockly.Blocks['convert_ra_de'] = {
-	init: function () {
-		this.jsonInit({
-			"type": "convert_ra_de",
-			"message0": "%{BKY_MATH_CONVERT_RA_DE_TITLE} %1 %2",
-			"args0": [
-			  {
-				"type": "field_dropdown",
-				"name": "OP",
-				"options": [
-				  [
-					"%{BKY_MATH_CONVERT_RA_DE}",
-					"RA_TO_DE"
-				  ],
-				  [
-					"%{BKY_MATH_CONVERT_DE_RA}",
-					"DE_TO_RA"
-				  ]
-				]
-			  },
-			  {
-				"type": "input_value",
-				"name": "NUM",
-				"check": "Number"
-			  }
-			],
-			"output": "Number",
-			"colour": Blockly.Msg.MATH_HUE,
-			"tooltip": "%{BKY_MATH_CONVERT_RA_DE_TOOLTIP}",
-		});
+	Blockly.Blocks['convert_ra_de'] = {
+		init: function () {
+			this.jsonInit({
+				"type": "convert_ra_de",
+				"message0": "%{BKY_MATH_CONVERT_RA_DE_TITLE} %1 %2",
+				"args0": [
+					{
+						"type": "field_dropdown",
+						"name": "OP",
+						"options": [
+							[
+								"%{BKY_MATH_CONVERT_RA_DE}",
+								"RA_TO_DE"
+							],
+							[
+								"%{BKY_MATH_CONVERT_DE_RA}",
+								"DE_TO_RA"
+							]
+						]
+					},
+					{
+						"type": "input_value",
+						"name": "NUM",
+						"check": "Number"
+					}
+				],
+				"output": "Number",
+				"colour": Blockly.Msg.MATH_HUE,
+				"tooltip": "%{BKY_MATH_CONVERT_RA_DE_TOOLTIP}",
+			});
+		}
 	}
-}
+
+	Blockly.Blocks['math_map_value'] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("map (");
+			this.appendValueInput("VALUE")
+				.setCheck("Number");
+			this.appendDummyInput()
+				.appendField(",");
+			this.appendValueInput("fromLOW")
+				.setCheck("Number");
+			this.appendDummyInput()
+				.appendField(",");
+			this.appendValueInput("fromHIGH")
+				.setCheck("Number");
+			this.appendDummyInput()
+				.appendField(",");
+			this.appendValueInput("toLOW")
+				.setCheck("Number");
+			this.appendDummyInput()
+				.appendField(",");
+			this.appendValueInput("toHIGH")
+				.setCheck("Number");
+			this.appendDummyInput()
+				.appendField(")");
+			this.setInputsInline(true);
+			this.setOutput(true, "Number");
+			this.setColour(Blockly.Msg.MATH_HUE);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
+	};
+
 }

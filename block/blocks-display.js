@@ -367,4 +367,107 @@ module.exports = function (Blockly) {
 			this.setHelpUrl(Blockly.Msg.BASIC_STRING_HELPURL);
 		}
 	};
+
+	// ######################################################################
+	Blockly.Blocks["tft_display_setRotation"] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("TFT setRotation")
+				.appendField(new Blockly.FieldDropdown([
+					["RIGHT", "0"],
+					["TOP", "1"],
+					["LEFT", "2"],
+					["DOWN", "3"]
+				]),
+					"rotation");
+			this.setPreviousStatement(true, null);
+			this.setNextStatement(true, null);
+			this.setColour(basic_colour);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks["tft_display_draw_line"] = {
+		init: function () {
+			this.appendValueInput("x0")
+				.setCheck("Number")
+				.appendField("draw line from (X");
+			this.appendValueInput("y0")
+				.setCheck("Number")
+				.appendField(",Y");
+			this.appendValueInput("x1")
+				.setCheck("Number")
+				.appendField(")  to  (X");
+			this.appendValueInput("y1")
+				.setCheck("Number")
+				.appendField(",Y");
+			this.appendDummyInput()
+				.appendField(")");
+			this.appendDummyInput()
+				.appendField("color")
+				.appendField(new Blockly.FieldColour("#000000"), "COLOR");
+			this.setInputsInline(true);
+			this.setPreviousStatement(true, null);
+			this.setNextStatement(true, null);
+			this.setColour(basic_colour);
+			this.setTooltip("draw line from (x0,y0) to (x1,y1)");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks["tft_display_draw_rect"] = {
+		init: function () {
+			this.appendValueInput("x")
+				.setCheck("Number")
+				.appendField("draw rectangle at (X");
+			this.appendValueInput("y")
+				.setCheck("Number")
+				.appendField(", Y");
+			this.appendValueInput("width")
+				.setCheck("Number")
+				.appendField(")  width");
+			this.appendValueInput("height")
+				.setCheck("Number")
+				.appendField(" height");
+			this.appendDummyInput()
+				.appendField("color")
+				.appendField(new Blockly.FieldColour("#000000"), "COLOR");
+			this.appendDummyInput()
+				.appendField(" fill ")
+				.appendField(new Blockly.FieldCheckbox("FALSE"), "fill");
+			this.setInputsInline(true);
+			this.setPreviousStatement(true, null);
+			this.setNextStatement(true, null);
+			this.setColour(basic_colour);
+			this.setTooltip("draw rectangle to display");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks["tft_display_draw_circle"] = {
+		init: function () {
+			this.appendValueInput("x")
+				.setCheck("Number")
+				.appendField("draw circle at (X");
+			this.appendValueInput("y")
+				.setCheck("Number")
+				.appendField(",Y");
+			this.appendValueInput("r")
+				.setCheck("Number")
+				.appendField(")  radius");
+			this.appendDummyInput()
+				.appendField("color")
+				.appendField(new Blockly.FieldColour("#000000"), "COLOR");
+			this.appendDummyInput()
+				.appendField(" fill")
+				.appendField(new Blockly.FieldCheckbox("FALSE"), "fill");
+			this.setInputsInline(true);
+			this.setPreviousStatement(true, null);
+			this.setNextStatement(true, null);
+			this.setColour(basic_colour);
+			this.setTooltip("draw circle on screen");
+			this.setHelpUrl("");
+		}
+	};
 }

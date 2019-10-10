@@ -5,6 +5,7 @@ let sensor = require("./menu/config.group.sensor");
 let music = require("./menu/config.group.music");
 let time = require("./menu/config.group.time");
 let kbx = require("./menu/config.group.kbxio");
+let math = require("./menu/config.group.math");
 
 module.exports = {
   blocks: [
@@ -13,6 +14,7 @@ module.exports = {
     sensor,
     music,
     time,
-    kbx
+    kbx,
+    math
   ],
 };
