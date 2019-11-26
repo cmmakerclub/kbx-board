@@ -54,7 +54,7 @@ module.exports = function (Blockly) {
 	//									KBX-IO
 	//###############################################################################################
 	Blockly.JavaScript['kbx_usb_loop'] = function (block) {
-		var code =`KBXio.usb_loop();\n`;
+		var code = `KBXio.usb_loop();\n`;
 		return code;
 	};
 
@@ -178,5 +178,30 @@ Wire.endTransmission(true);
 
 		return code;
 	};
+
+	Blockly.JavaScript['kbx_pwm_setup'] = function (block) {
+		// TODO: Assemble JavaScript into code variable.
+		var code = `KBXio.periodX1();\n`;
+		return code;
+	};
+
+	Blockly.JavaScript['kbx_pwm_write'] = function (block) {
+		var dropdown_pin = block.getFieldValue('pin');
+		var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+		var code = `KBXio.io_PWMWrite(${dropdown_pin}, ${value_value});\n`;
+		return code;
+	};
+
+	Blockly.JavaScript['kbx_pwm_digitalRead'] = function (block) {
+		var pin = block.getFieldValue('pin');
+		var code = `KBXio.io_digitalRead(${pin})`;
+		return [code, Blockly.JavaScript.ORDER_NONE];
+	};
+
+	Blockly.JavaScript['kbx_pwm_analogRead'] = function(block) {
+		var pin = block.getFieldValue('pin');
+		var code = `KBXio.io_analogRead(${pin})`;
+		return [code, Blockly.JavaScript.ORDER_NONE];
+	  };
 
 };

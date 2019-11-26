@@ -90,7 +90,7 @@ void kbxui::update() {
     BtnSW1.read();
     BtnSW2.read();
 
-//	TP.read();
+	// TP.read();
 
     //Speaker update
     Speaker.update();

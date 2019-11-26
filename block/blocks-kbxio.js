@@ -297,7 +297,6 @@ module.exports = function (Blockly) {
 	Blockly.Blocks["kbx_output_write"] = {
 		init: function () {
 			this.appendDummyInput()
-				.appendField(new Blockly.FieldImage("/static/block_icons/banana.png", 20, 20, "*"))
 				.appendField(Blockly.Msg.OUTPUT_WRITE_TITLE)
 				.appendField(new Blockly.FieldDropdown([
 					["RB00", "0"],
@@ -325,6 +324,81 @@ module.exports = function (Blockly) {
 			this.setColour(255);
 			this.setTooltip(Blockly.Msg.OUTPUT_WRITE_TOOLTIP);
 			this.setHelpUrl(Blockly.Msg.OUTPUT_WRITE_HELPURL);
+		}
+	};
+
+
+	Blockly.Blocks['kbx_pwm_setup'] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("KBX-IO PWM setup");
+			this.setPreviousStatement(true, null);
+			this.setNextStatement(true, null);
+			this.setColour(255);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks['kbx_pwm_write'] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("KBX-IO PWM write")
+				.appendField(new Blockly.FieldDropdown([["IO_PWM1", "IO_PWM1"], ["IO_PWM2", "IO_PWM2"], ["IO_PWM3", "IO_PWM3"]]), "pin")
+				.appendField("value");
+			this.appendValueInput("VALUE")
+				.setCheck("Number");
+			this.appendDummyInput()
+				.appendField("(0-200)");
+			this.setInputsInline(true);
+			this.setPreviousStatement(true, null);
+			this.setNextStatement(true, null);
+			this.setColour(255);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks['kbx_pwm_digitalRead'] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("KBX-IO digitalRead")
+				.appendField(new Blockly.FieldDropdown([
+					["RB00", "0"],
+					["RB01", "1"],
+					["RB02", "2"],
+					["RB03", "3"],
+					["RB04", "4"],
+					["RB13", "5"],
+					["RB15", "6"],
+					["RC00", "7"],
+					["RC01", "8"],
+					["RC02", "9"],
+					["RA04", "10"],
+					["RA08", "11"],
+					["RA09", "12"]
+				]), "pin");
+			this.setInputsInline(true);
+			this.setOutput(true, null);
+			this.setColour(255);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks['kbx_pwm_analogRead'] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("KBX-IO digitalRead")
+				.appendField(new Blockly.FieldDropdown([
+					["IO_Analog1", "IO_Analog1"],
+					["IO_Analog2", "IO_Analog2"]
+				]), "pin");
+			this.setInputsInline(true);
+			this.setOutput(true, null);
+			this.setColour(255);
+			this.setTooltip("");
+			this.setHelpUrl("");
 		}
 	};
 };

@@ -113,8 +113,32 @@ module.exports = {
                 </block>`
         },
         'basic_string_TH',
-        "basic_TFT_clearPixel",
-        'tft_display_setRotation',
+        {
+            xml:
+                `<block type = "basic_TFT_clearPixel">
+                    <value name = "X">
+                        <shadow type = "math_number">
+                            <field name = "NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name = "Y">
+                        <shadow type = "math_number">
+                            <field name = "NUM">0</field>
+                        </shadow>
+                    </value>
+                    <value name = "W">
+                        <shadow type = "math_number">
+                            <field name = "NUM">50</field>
+                        </shadow>
+                    </value>
+                    <value name = "H">
+                        <shadow type = "math_number">
+                            <field name = "NUM">50</field>
+                        </shadow>
+                    </value>
+
+                </block>`
+        },
         {
             xml:
                 `<block type="tft_display_draw_line">
@@ -184,6 +208,13 @@ module.exports = {
                                 </shadow>
                             </value>
                         </block>`
-        }
+        },
+        {
+            xml: `<sep gap="32"></sep><label text="KBX-UI Touch Screen" web-class="headline"></label>`
+        },
+        'touch_begin',
+        'touch_condition',
+        'touch_get_position_x',
+        'touch_get_position_y'
     ]
 };

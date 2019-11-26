@@ -53,7 +53,7 @@ module.exports = function (Blockly) {
 			this.appendDummyInput().appendField("image size is 280 x 210");
 
 			this.setOutput(true, "std::vector<uint16_t>");
-			this.setColour(230);
+			this.setColour(basic_colour);
 			this.setTooltip(
 				"create image from PNG file (for best quality result please use size within 128x64 pixel otherwise, it'll resize)");
 			this.setHelpUrl("");
@@ -80,7 +80,7 @@ module.exports = function (Blockly) {
 			this.setInputsInline(true);
 			this.setPreviousStatement(true, null);
 			this.setNextStatement(true, null);
-			this.setColour(230);
+			this.setColour(basic_colour);
 			this.setTooltip("display image to display");
 			this.setHelpUrl("");
 		}
@@ -274,9 +274,10 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendDummyInput()
 				.appendField("TFT print x:")
-				.appendField(new Blockly.FieldNumber(0, 0, 320), "X")
-				.appendField("y:")
-				.appendField(new Blockly.FieldNumber(0, 0, 240), "Y")
+			this.appendValueInput('X')
+				.setCheck("Number")
+			this.appendValueInput('Y')
+				.setCheck("Number")
 			this.appendValueInput('TEXT')
 				.appendField("message:")
 				.setCheck(["Number", "String"])
@@ -305,9 +306,10 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendDummyInput()
 				.appendField("TFT print fonts Thai x:")
-				.appendField(new Blockly.FieldNumber(0, 0, 320), "X")
-				.appendField("y:")
-				.appendField(new Blockly.FieldNumber(0, 0, 240), "Y")
+			this.appendValueInput('X')
+				.setCheck("Number")
+			this.appendValueInput('Y')
+				.setCheck("Number")
 			this.appendValueInput('TEXT')
 				.appendField("message:")
 				.setCheck("String")
@@ -336,13 +338,21 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendDummyInput()
 				.appendField("TFT clear x:")
-				.appendField(new Blockly.FieldNumber(0, 0, 320), "X")
+			this.appendValueInput('X')
+				.setCheck("Number")
+			this.appendDummyInput()
 				.appendField("y:")
-				.appendField(new Blockly.FieldNumber(0, 0, 240), "Y")
-				.appendField(" width:")
-				.appendField(new Blockly.FieldNumber(0, 0, 320), "W")
+			this.appendValueInput('Y')
+				.setCheck("Number")
+			this.appendDummyInput()
+				.appendField("width:")
+			this.appendValueInput('W')
+				.setCheck("Number")
+			this.appendDummyInput()
 				.appendField("hight:")
-				.appendField(new Blockly.FieldNumber(0, 0, 240), "H")
+			this.appendValueInput('H')
+				.setCheck("Number")
+			this.appendDummyInput()
 				.appendField("color:")
 				.appendField(new Blockly.FieldColour('#000000'), 'tColor')
 			this.setPreviousStatement(true, null);
@@ -368,7 +378,7 @@ module.exports = function (Blockly) {
 		}
 	};
 
-	// ######################################################################
+	// ########################### TFT Display ###################################
 	Blockly.Blocks["tft_display_setRotation"] = {
 		init: function () {
 			this.appendDummyInput()
@@ -406,7 +416,7 @@ module.exports = function (Blockly) {
 				.appendField(")");
 			this.appendDummyInput()
 				.appendField("color")
-				.appendField(new Blockly.FieldColour("#000000"), "COLOR");
+				.appendField(new Blockly.FieldColour("#ff0000"), "COLOR");
 			this.setInputsInline(true);
 			this.setPreviousStatement(true, null);
 			this.setNextStatement(true, null);
@@ -432,7 +442,7 @@ module.exports = function (Blockly) {
 				.appendField(" height");
 			this.appendDummyInput()
 				.appendField("color")
-				.appendField(new Blockly.FieldColour("#000000"), "COLOR");
+				.appendField(new Blockly.FieldColour("#00ff00"), "COLOR");
 			this.appendDummyInput()
 				.appendField(" fill ")
 				.appendField(new Blockly.FieldCheckbox("FALSE"), "fill");
@@ -458,7 +468,7 @@ module.exports = function (Blockly) {
 				.appendField(")  radius");
 			this.appendDummyInput()
 				.appendField("color")
-				.appendField(new Blockly.FieldColour("#000000"), "COLOR");
+				.appendField(new Blockly.FieldColour("#0000ff"), "COLOR");
 			this.appendDummyInput()
 				.appendField(" fill")
 				.appendField(new Blockly.FieldCheckbox("FALSE"), "fill");
@@ -467,6 +477,57 @@ module.exports = function (Blockly) {
 			this.setNextStatement(true, null);
 			this.setColour(basic_colour);
 			this.setTooltip("draw circle on screen");
+			this.setHelpUrl("");
+		}
+	};
+
+	// ########################### TFT Touch screen ###################################
+	Blockly.Blocks["touch_begin"] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("Touch begin");
+			this.setInputsInline(true);
+			this.setPreviousStatement(true, null);
+			this.setNextStatement(true, null);
+			this.setColour(basic_colour);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks["touch_condition"] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("IF touch on display")
+			this.appendStatementInput("TOUCH_STATEMENT")
+				.setCheck(null);
+			this.setInputsInline(true);
+			this.setPreviousStatement(true, null);
+			this.setNextStatement(true, null);
+			this.setColour(basic_colour);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks['touch_get_position_x'] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("get toucher X");
+			this.setOutput(true, null);
+			this.setColour(basic_colour);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks['touch_get_position_y'] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("get toucher Y");
+			this.setOutput(true, null);
+			this.setColour(basic_colour);
+			this.setTooltip("");
 			this.setHelpUrl("");
 		}
 	};

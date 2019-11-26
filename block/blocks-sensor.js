@@ -10,7 +10,7 @@ Blockly.Blocks["sensor_lm73"] = {
 	init: function() {
 		this.appendDummyInput()
 			.appendField(new Blockly.FieldImage("/static/block_icons/sot23-6_1.png", 20, 20, "*"))
-			.appendField("Temperature snesor (LM73)");
+			.appendField("Temperature sensor (LM73)");
 		this.setOutput(true, 'Number');
 		this.setPreviousStatement(false);
 		this.setNextStatement(false);
