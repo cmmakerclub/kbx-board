@@ -72,7 +72,7 @@ KBX.matrix.writeDisplay();
 		var value_speed = Blockly.JavaScript.valueToCode(block, 'SPEED', Blockly.JavaScript.ORDER_ATOMIC);
 		var code =
 			`
-for (int x=16; x>=-(int(60+sizeof(String(${argument0})))); x--) {
+for (int x=16; x>=-(int(6* String(${argument0}).length())); x--) {
 	KBX.matrix.clear();
     KBX.matrix.setCursor(x, 0);
     KBX.matrix.print(String(${argument0}));
@@ -156,8 +156,8 @@ for (int x=16; x>=-(int(60+sizeof(String(${argument0})))); x--) {
 	};
 
 	Blockly.JavaScript['basic_TFT_print'] = function (block) {
-		var value_x = block.getFieldValue('X');
-		var value_y = block.getFieldValue('Y');
+		var value_x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_ATOMIC);
+		var value_y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_ATOMIC);
 		var value_text = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
 		var value_tColor = block.getFieldValue('tColor');
 		var value_bColor = block.getFieldValue('bColor');
@@ -177,8 +177,8 @@ KBX.Lcd.drawString(String(${value_text}), ${value_x}, ${value_y}, 1);
 	};
 
 	Blockly.JavaScript['basic_TFT_print_TH'] = function (block) {
-		var value_x = block.getFieldValue('X');
-		var value_y = block.getFieldValue('Y');
+		var value_x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_ATOMIC);
+		var value_y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_ATOMIC);
 		var value_text = Blockly.JavaScript.valueToCode(block, 'TEXT', Blockly.JavaScript.ORDER_ATOMIC);
 		var value_tColor = block.getFieldValue('tColor');
 		var value_bColor = block.getFieldValue('bColor');
@@ -197,7 +197,14 @@ KBX.Lcd.drawUTF8String(${value_text}, ${value_x}, ${value_y}, 1);
 	};
 
 	Blockly.JavaScript['basic_TFT_clearPixel'] = function (block) {
-		var code = 'KBX.Lcd.fillRect(' + block.getFieldValue('X') + ', ' + block.getFieldValue('Y') + ', ' + block.getFieldValue('W') + ', ' + block.getFieldValue('H') + ', 0x' + rgbto16bit(block.getFieldValue('tColor')) + ');\n';
+		var value_x = Blockly.JavaScript.valueToCode(block, 'X', Blockly.JavaScript.ORDER_ATOMIC);
+		var value_y = Blockly.JavaScript.valueToCode(block, 'Y', Blockly.JavaScript.ORDER_ATOMIC);
+		var value_w = Blockly.JavaScript.valueToCode(block, 'W', Blockly.JavaScript.ORDER_ATOMIC);
+		var value_h = Blockly.JavaScript.valueToCode(block, 'H', Blockly.JavaScript.ORDER_ATOMIC);
+		var value_tColor = block.getFieldValue('tColor');
+		var text_color = rgbto16bit(value_tColor);
+
+		var code = `KBX.lcd.fillRect(${value_x}, ${value_y}, ${value_w}, ${value_h}, 0x${text_color});\n`;
 		return code;
 	};
 
@@ -208,7 +215,7 @@ KBX.Lcd.drawUTF8String(${value_text}, ${value_x}, ${value_y}, 1);
 		];
 	};
 
-	// ######################################################################
+	// ########################### TFT Display ###################################
 	Blockly.JavaScript["tft_display_setRotation"] = function (block) {
 		var value_rotation = block.getFieldValue('rotation');
 		var code = `KBX.Lcd.setRotation(${value_rotation});\n`;
@@ -294,4 +301,50 @@ KBX.Lcd.drawLine(${value_x0},${value_y0},${value_x1},${value_y1},0x${value_color
 		return code;
 	};
 
+	// ########################### TFT Touch screen ###################################
+	Blockly.JavaScript["touch_begin"] = function(block) {
+		var code =
+		  `
+	  #EXTINC#include <XPT2046_Touchscreen.h>#END
+	  #VARIABLEXPT2046_Touchscreen ts(TOUCH_PIN);#END
+	  #SETUP
+	  SPI.begin(22, 32, 21, 27);
+	  ts.begin();
+	  ts.setRotation(1);
+	  #END
+	  \n
+	  `;
+		return code;
+	  };
+	
+	  Blockly.JavaScript["touch_condition"] = function(block) {
+		var statements_mqtt_statement = Blockly.JavaScript.statementToCode(block,"TOUCH_STATEMENT");
+	
+		var code = `
+		if (ts.touched())
+		{
+		  TS_Point p = ts.getPoint();
+		  int tft_point_x = map(p.x, 170, 3750, 0, 320);
+		  int tft_point_y = map(p.y, 200, 3855, 240, 0);
+		  ${statements_mqtt_statement}
+		}
+		\n
+		`;
+		return code;
+	  };
+	
+	
+	  Blockly.JavaScript['touch_get_position_x'] = function(block) {
+		
+		var code = '(int)tft_point_x';
+	
+		return [code, Blockly.JavaScript.ORDER_NONE];
+	  };
+	
+	  Blockly.JavaScript['touch_get_position_y'] = function(block) {
+		
+		var code = '(int)tft_point_y';
+	
+		return [code, Blockly.JavaScript.ORDER_NONE];
+	  };
 }

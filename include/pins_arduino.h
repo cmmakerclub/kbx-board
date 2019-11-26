@@ -53,7 +53,6 @@ static const uint8_t T9 = 32;
 static const uint8_t DAC1 = 25;
 static const uint8_t DAC2 = 26;
 
-
 static const uint8_t KB_LDR_PIN = 36;
 
 static const uint8_t KB_BUTTON1 = 16;
@@ -88,7 +87,9 @@ static const uint8_t KB_SCL1 = 5;
 
 static const uint8_t KB_GPIO18 = 18;
 static const uint8_t KB_GPIO19 = 19;
-static const uint8_t KB_GPIO23= 23;
+static const uint8_t KB_GPIO23 = 23;
+
+static const uint8_t TOUCH_PIN = 27;
 
 
 #endif /* Pins_Arduino_h */

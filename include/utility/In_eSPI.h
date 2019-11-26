@@ -22,9 +22,9 @@
 #include "In_eSPI_Setup.h"
 
 // If the frequency is not defined, set a default
-#ifndef SPI_FREQUENCY
-  #define SPI_FREQUENCY  20000000
-#endif
+// #ifndef SPI_FREQUENCY
+  #define SPI_FREQUENCY  160000000
+// #endif
 
 // If the frequency is not defined, set a default
 #ifndef SPI_TOUCH_FREQUENCY
@@ -627,7 +627,7 @@ class TFT_eSPI : public Print {
            drawRightString(const char *string, int dX, int poY, int font),  // Deprecated, use setTextDatum() and drawString()
 
            // Unicode - Jimmy
-          //  drawUTF8String(String *string, int poX, int poY, int font),
+           drawUTF8String(String string, int poX, int poY, int font),
            drawUTF8String(const char *string, int poX, int poY, int font),
            drawUTF8String(double d, int poX, int poY, int font),
 
