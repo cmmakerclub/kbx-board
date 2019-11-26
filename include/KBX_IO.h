@@ -21,11 +21,40 @@
 #define PIN_RA8 0x10
 #define PIN_RA9 0x20
 
+
+#define IN_RB0 0
+#define IN_RB1 1
+#define IN_RB2 2
+#define IN_RB3 3
+#define IN_RB4 4
+#define IN_RB13 5
+#define IN_RB14 6
+#define IN_RB15 7
+#define IN_RC0 8
+#define IN_RC1 9
+#define IN_RC2 10
+#define IN_RA4 11
+#define IN_RA8 12
+#define IN_RA9 13
+
+#define IO_PWM1 0x2A
+#define IO_PWM2 0x2B
+#define IO_PWM3 0x2C
+#define periodX1 0b00001000
+
+#define IO_Analog1 0x2D
+#define IO_Analog2 0x2E
+
 class KBX_IO
 {
 public:
     void io_pinMode(byte _pinH, byte _pinL, byte _state);
     void io_digitalWrite(byte _pinH, byte _pinL, byte _state);
+    byte io_digitalRead ( byte input );
+    uint16_t io_analogRead ( byte input );
+    void io_set_period_PWM();
+    ///PWM 0-200
+    void io_PWMWrite(byte pin, byte PWM);
     void usb_loop();
 
     String keyboard_1_char();

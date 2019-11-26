@@ -31,6 +31,19 @@ module.exports = {
             xml: `<sep gap="32"></sep><label text="I/O" web-class="headline"></label>`
         },
         "kbx_gpio_begin",
-        "kbx_output_write"
+        "kbx_output_write",
+        "kbx_pwm_setup",
+        {
+            xml:
+                `<block type="kbx_pwm_write">
+                    <value name="VALUE">
+                        <shadow type="math_number">
+                            <field name="NUM">200</field>
+                        </shadow>
+                    </value>
+                </block>`
+        },
+        "kbx_pwm_digitalRead",
+        "kbx_pwm_analogRead"
     ]
 };

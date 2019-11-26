@@ -144,14 +144,14 @@ module.exports = function (Blockly) {
 	};
 
 	Blockly.Blocks["digital_pin_dummy_input"] = {
-	    init: function () {
-	        this.appendDummyInput()
-	            .appendField(new Blockly.FieldDropdown([
-	                ["LED_BT (IO17)", "17"],
-	                ["LED_WIFI (IO02)", "2"],
-	                ["LED_NTP (IO15)", "15"],
-	                ["LED_IOT (IO12)", "12"],
-	                ["SW1 (IO16)", "16"],
+		init: function () {
+			this.appendDummyInput()
+				.appendField(new Blockly.FieldDropdown([
+					["LED_BT (IO17)", "17"],
+					["LED_WIFI (IO02)", "2"],
+					["LED_NTP (IO15)", "15"],
+					["LED_IOT (IO12)", "12"],
+					["SW1 (IO16)", "16"],
 					["SW2 (IO14)", "14"],
 					["OUTPUT_1 (IO26)", "26"],
 					["OUTPUT_2 (IO27)", "27"],
@@ -165,12 +165,14 @@ module.exports = function (Blockly) {
 					["SCL0 (IO22)", "22"],
 					["SDA1 (IO04)", "4"],
 					["SCL1 (IO05)", "5"]
-	            ]), "IO_PIN");
-	        this.setOutput(true, "Number");
-	        this.setColour(45);
-	        this.setTooltip("");
-	        this.setHelpUrl("");
-	    }
+				]), "IO_PIN");
+			this.setOutput(true, "Number");
+			this.setColour(io_colour);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
 	};
+
+
 
 };

@@ -6,6 +6,7 @@ void KB_LM73::begin(void) {
 }
 
 float KB_LM73::readTemp() {
+    Wire1.begin(4, 5);
     Wire1.beginTransmission(0x4D);
     Wire1.write(0x00);
     Wire1.endTransmission();

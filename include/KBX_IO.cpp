@@ -1,4 +1,50 @@
 #include "KBX_IO.h"
+uint16_t KBX_IO::io_analogRead(byte input)
+{
+    Wire1.beginTransmission(0x34);
+    Wire1.write(input);
+    Wire1.endTransmission(true);
+    Wire1.requestFrom((uint8_t)0x34, 2, true);
+    byte buff[16];
+    byte idx = 0;
+    while (Wire1.available())
+    {
+        buff[idx++] = Wire1.read();
+        //    Serial.println(Wire1.read(),BIN);
+    }
+    return word(buff[0], buff[1]);
+}
+byte KBX_IO::io_digitalRead(byte input)
+{
+    Wire1.beginTransmission(0x34);
+    Wire1.write(0x22);
+    Wire1.endTransmission(true);
+    Wire1.requestFrom((uint8_t)0x34, 2, true);
+    byte buff[16];
+    byte idx = 0;
+    while (Wire1.available())
+    {
+        buff[idx++] = Wire1.read();
+    }
+    return bitRead(word(buff[0], buff[1]), input);
+}
+void KBX_IO::io_set_period_PWM()
+{
+    Wire1.beginTransmission(0x34);
+    Wire1.write(0x27);
+    Wire1.write(periodX1);
+    Wire1.write(periodX1);
+    Wire1.write(periodX1);
+    Wire1.endTransmission(true);
+}
+
+void KBX_IO::io_PWMWrite(byte pin, uint8_t PWM)
+{
+    Wire1.beginTransmission(0x34);
+    Wire1.write(pin);
+    Wire1.write(PWM);
+    Wire1.endTransmission(true);
+}
 
 void KBX_IO::io_pinMode(byte _pinH, byte _pinL, byte _state)
 {
@@ -109,6 +155,10 @@ void KBX_IO::usb_loop()
             _keyboard_1_char = "v";
         else if ((buff[1] + 61) == 143)
             _keyboard_1_char = "^";
+        else if ((buff[1] + 61) == 101)
+            _keyboard_1_char = "$";
+        else if ((buff[1] + 61) == 103)
+            _keyboard_1_char = "~";
 
         if ((buff[2] + 61) == 140)
             _keyboard_2_char = ">";
@@ -118,6 +168,10 @@ void KBX_IO::usb_loop()
             _keyboard_2_char = "v";
         else if ((buff[2] + 61) == 143)
             _keyboard_2_char = "^";
+        else if ((buff[2] + 61) == 101)
+            _keyboard_2_char = "$";
+        else if ((buff[2] + 61) == 103)
+            _keyboard_2_char = "~";
 
         // joystick left X axis
         _joystick_lX = buff[8];
@@ -130,37 +184,48 @@ void KBX_IO::usb_loop()
 
         if ((buff[13] & 0x8F) == 0x8F)
             _joystick_button_x = 1;
-        else 
+        else
             _joystick_button_x = 0;
         if ((buff[13] & 0x4F) == 0x4F)
             _joystick_button_y = 1;
-        else 
+        else
             _joystick_button_y = 0;
         if ((buff[13] & 0x2F) == 0x2F)
             _joystick_button_a = 1;
-        else 
+        else
             _joystick_button_a = 0;
         if ((buff[13] & 0x1F) == 0x1F)
             _joystick_button_b = 1;
-        else 
+        else
             _joystick_button_b = 0;
 
         // joystick paddle
         if ((buff[14] & 0x01) == 0x01)
+        {
             _joystick_paddle = "L1";
-        if ((buff[14] & 0x02) == 0x02)
+        }
+        else if ((buff[14] & 0x02) == 0x02)
+        {
             _joystick_paddle = "R1";
-        if ((buff[14] & 0x04) == 0x04)
+        }
+        else if ((buff[14] & 0x04) == 0x04)
+        {
             _joystick_paddle = "L2";
-        if ((buff[14] & 0x08) == 0x08)
+        }
+        else if ((buff[14] & 0x08) == 0x08)
+        {
             _joystick_paddle = "R2";
+        } else {
+            _joystick_paddle = "";
+        }
 
         // joystick select & start button
-        if ((buff[14] & 0x10) == 0x08)
+        if ((buff[14] & 0x10) == 0x10)
             _joystick_button_select = 1;
         else
             _joystick_button_select = 0;
-        if ((buff[14] & 0x20) == 0x08)
+
+        if ((buff[14] & 0x20) == 0x20)
             _joystick_button_start = 1;
         else
             _joystick_button_start = 0;

@@ -54,4 +54,11 @@ module.exports = function (Blockly) {
 		return [code, Blockly.JavaScript.ORDER_ATOMIC];
 	};
 
+	Blockly.JavaScript["digital_pin_dummy_input"] = function (block) {
+		let dropdown_name = block.getFieldValue("IO_PIN");
+		let code = `${dropdown_name}`;
+		return [code, Blockly.JavaScript.ORDER_ATOMIC];
+	};
+
+
 };

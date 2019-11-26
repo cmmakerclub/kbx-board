@@ -28,7 +28,6 @@ void setup()
 {
   board.begin();
   ldr.begin();
-  lm73.begin();
   
   KBX.begin();
   KBX.matrix.clear();
