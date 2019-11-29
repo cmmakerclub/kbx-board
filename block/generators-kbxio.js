@@ -1,55 +1,5 @@
 module.exports = function (Blockly) {
 	'use strict';
-	// =============================================================================
-	// sensor
-	// =============================================================================
-	Blockly.JavaScript['sensor_lm73'] = function (block) {
-		//var code = 'lm73.readTemp()\n';
-		//return code;
-		return [
-			'lm73.readTemp()',
-			Blockly.JavaScript.ORDER_ATOMIC
-		];
-	};
-
-	Blockly.JavaScript['sensor_ldr'] = function (block) {
-		return [
-			'ldr.mapLDR()',
-			Blockly.JavaScript.ORDER_ATOMIC
-		];
-	};
-
-	Blockly.JavaScript['sensor_switch1'] = function (block) {
-		return ['((int)digitalRead(KB_BUTTON1))',
-			Blockly.JavaScript.ORDER_ATOMIC
-		];
-	};
-
-	Blockly.JavaScript['sensor_switch2'] = function (block) {
-		return ['((int)digitalRead(KB_BUTTON2))',
-			// 'button12.sw2_get()',
-			Blockly.JavaScript.ORDER_ATOMIC
-		];
-	};
-
-	Blockly.JavaScript['tft_switch1'] = function (block) {
-		return ['((int)digitalRead(KB_TFT_SW1))',
-			Blockly.JavaScript.ORDER_ATOMIC
-		];
-	};
-
-	Blockly.JavaScript['tft_switch2'] = function (block) {
-		return ['((int)digitalRead(KB_TFT_SW2))',
-			Blockly.JavaScript.ORDER_ATOMIC
-		];
-	};
-
-	Blockly.JavaScript['tft_switch3'] = function (block) {
-		return ['((int)digitalRead(KB_TFT_SW3))',
-			Blockly.JavaScript.ORDER_ATOMIC
-		];
-	};
-
 	//###############################################################################################
 	//									KBX-IO
 	//###############################################################################################
@@ -124,16 +74,17 @@ module.exports = function (Blockly) {
 	};
 
 
-	Blockly.JavaScript['kbx_gpio_begin'] = function (block) {
-		var code = `  
-Wire.beginTransmission(0x34);
-Wire.write(32);
-Wire.write(0x00);
-Wire.write(0x00);
-Wire.endTransmission(true);
-\n`;
-		return code;
-	};
+// 	Blockly.JavaScript['kbx_gpio_begin'] = function (block) {
+// 		var code = `  
+// Wire.begin(4, 5);
+// Wire.beginTransmission(0x34);
+// Wire.write(32);
+// Wire.write(0x00);
+// Wire.write(0x00);
+// Wire.endTransmission(true);
+// \n`;
+// 		return code;
+// 	};
 
 	Blockly.JavaScript['kbx_gpio_begin'] = function (block) {
 		var dropdown_pin = block.getFieldValue('PIN');
@@ -181,7 +132,7 @@ Wire.endTransmission(true);
 
 	Blockly.JavaScript['kbx_pwm_setup'] = function (block) {
 		// TODO: Assemble JavaScript into code variable.
-		var code = `KBXio.periodX1();\n`;
+		var code = `KBXio.io_set_period_PWM();\n`;
 		return code;
 	};
 

@@ -40,7 +40,7 @@
 #define IO_PWM1 0x2A
 #define IO_PWM2 0x2B
 #define IO_PWM3 0x2C
-#define periodX1 0b00001000
+#define periodX1 0x08
 
 #define IO_Analog1 0x2D
 #define IO_Analog2 0x2E

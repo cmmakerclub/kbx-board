@@ -1,6 +1,7 @@
 #include "KBX_IO.h"
 uint16_t KBX_IO::io_analogRead(byte input)
 {
+    Wire1.begin(4, 5);
     Wire1.beginTransmission(0x34);
     Wire1.write(input);
     Wire1.endTransmission(true);
@@ -16,6 +17,7 @@ uint16_t KBX_IO::io_analogRead(byte input)
 }
 byte KBX_IO::io_digitalRead(byte input)
 {
+    Wire1.begin(4, 5);
     Wire1.beginTransmission(0x34);
     Wire1.write(0x22);
     Wire1.endTransmission(true);
@@ -30,6 +32,7 @@ byte KBX_IO::io_digitalRead(byte input)
 }
 void KBX_IO::io_set_period_PWM()
 {
+    Wire1.begin(4, 5);
     Wire1.beginTransmission(0x34);
     Wire1.write(0x27);
     Wire1.write(periodX1);
@@ -40,6 +43,7 @@ void KBX_IO::io_set_period_PWM()
 
 void KBX_IO::io_PWMWrite(byte pin, uint8_t PWM)
 {
+    Wire1.begin(4, 5);
     Wire1.beginTransmission(0x34);
     Wire1.write(pin);
     Wire1.write(PWM);
@@ -71,12 +75,13 @@ void KBX_IO::io_pinMode(byte _pinH, byte _pinL, byte _state)
             _pinSetup_L |= _pinL;
         }
     }
-
-    Wire.beginTransmission(0x34);
-    Wire.write(32);
-    Wire.write(_pinSetup_H);
-    Wire.write(_pinSetup_L);
-    Wire.endTransmission(true);
+    
+    Wire1.begin(4, 5);
+    Wire1.beginTransmission(0x34);
+    Wire1.write(32);
+    Wire1.write(_pinSetup_H);
+    Wire1.write(_pinSetup_L);
+    Wire1.endTransmission(true);
 }
 
 void KBX_IO::io_digitalWrite(byte _pinH, byte _pinL, byte _state)
@@ -109,17 +114,18 @@ void KBX_IO::io_digitalWrite(byte _pinH, byte _pinL, byte _state)
         }
     }
 
-    Wire.beginTransmission(0x34);
-    Wire.write(33);
-    Wire.write(_pinmask_H);
-    Wire.write(_pinmask_L);
-    Wire.endTransmission(true);
+    Wire1.begin(4, 5);
+    Wire1.beginTransmission(0x34);
+    Wire1.write(33);
+    Wire1.write(_pinmask_H);
+    Wire1.write(_pinmask_L);
+    Wire1.endTransmission(true);
 
-    Wire.beginTransmission(0x34);
-    Wire.write(34);
-    Wire.write(_status_H);
-    Wire.write(_status_L);
-    Wire.endTransmission(true);
+    Wire1.beginTransmission(0x34);
+    Wire1.write(34);
+    Wire1.write(_status_H);
+    Wire1.write(_status_L);
+    Wire1.endTransmission(true);
 }
 
 void KBX_IO::usb_loop()
@@ -129,15 +135,16 @@ void KBX_IO::usb_loop()
     {
         prevTime_kb = curTime_kb;
 
-        Wire.beginTransmission(0x34);
-        Wire.write(0);
-        Wire.endTransmission(false);
-        Wire.requestFrom((uint8_t)0x34, (uint8_t)16, true); //request 16 Bytes
+        Wire1.begin(4, 5);
+        Wire1.beginTransmission(0x34);
+        Wire1.write(0);
+        Wire1.endTransmission(false);
+        Wire1.requestFrom((uint8_t)0x34, (uint8_t)16, true); //request 16 Bytes
 
         byte buff[16];
         byte idx = 0;
-        while (Wire.available())
-            ((uint8_t *)buff)[idx++] = Wire.read();
+        while (Wire1.available())
+            ((uint8_t *)buff)[idx++] = Wire1.read();
 
         // keyboard A-Z
         _data1 = char(buff[1] + 61);
