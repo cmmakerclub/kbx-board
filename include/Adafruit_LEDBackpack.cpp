@@ -203,8 +203,7 @@ Adafruit_LEDBackpack::Adafruit_LEDBackpack(void) {
 void Adafruit_LEDBackpack::begin(uint8_t _addr = 0x70) {
   i2c_addr = _addr;
 
-  Wire.begin();
-
+  Wire.begin(21, 22);
   Wire.beginTransmission(i2c_addr);
   Wire.write(0x21);  // turn on oscillator
   Wire.endTransmission();
@@ -214,6 +213,9 @@ void Adafruit_LEDBackpack::begin(uint8_t _addr = 0x70) {
 }
 
 void Adafruit_LEDBackpack::writeDisplay(void) {
+  digitalWrite(19, HIGH);		// TFT_CS_PIN
+	digitalWrite(27, HIGH);		// TP_CS_PIN
+  Wire.begin(21, 22);
   Wire.beginTransmission(i2c_addr);
   Wire.write((uint8_t)0x00); // start at address $00
 

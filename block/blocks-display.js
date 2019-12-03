@@ -498,7 +498,9 @@ module.exports = function (Blockly) {
 	Blockly.Blocks["touch_condition"] = {
 		init: function () {
 			this.appendDummyInput()
-				.appendField("IF touch on display")
+				.appendField("isTouch threshold")
+			this.appendValueInput("touch")
+				.setCheck("Number")
 			this.appendStatementInput("TOUCH_STATEMENT")
 				.setCheck(null);
 			this.setInputsInline(true);
@@ -525,6 +527,17 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendDummyInput()
 				.appendField("get toucher Y");
+			this.setOutput(true, null);
+			this.setColour(basic_colour);
+			this.setTooltip("");
+			this.setHelpUrl("");
+		}
+	};
+
+	Blockly.Blocks['touch_get_position_z'] = {
+		init: function () {
+			this.appendDummyInput()
+				.appendField("get toucher Z");
 			this.setOutput(true, null);
 			this.setColour(basic_colour);
 			this.setTooltip("");

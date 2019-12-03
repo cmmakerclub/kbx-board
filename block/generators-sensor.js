@@ -33,19 +33,19 @@ Blockly.JavaScript['sensor_switch2'] = function(block) {
 };
 
 Blockly.JavaScript['tft_switch1'] = function(block) {
-	return [ '((int)digitalRead(KB_TFT_SW1))',
+	return [ '(!(int)digitalRead(KB_TFT_SW1))',
 		Blockly.JavaScript.ORDER_ATOMIC
 	];
 };
 
 Blockly.JavaScript['tft_switch2'] = function(block) {
-	return [ '((int)digitalRead(KB_TFT_SW2))',
+	return [ '(!(int)digitalRead(KB_TFT_SW2))',
 		Blockly.JavaScript.ORDER_ATOMIC
 	];
 };
 
 Blockly.JavaScript['tft_switch3'] = function(block) {
-	return [ '((int)digitalRead(KB_TFT_SW3))',
+	return [ '(!(int)digitalRead(KB_TFT_SW3))',
 		Blockly.JavaScript.ORDER_ATOMIC
 	];
 };

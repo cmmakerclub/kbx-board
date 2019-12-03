@@ -32,6 +32,8 @@ module.exports = {
         },
         "kbx_gpio_begin",
         "kbx_output_write",
+        "kbx_pwm_digitalRead",
+        "kbx_pwm_analogRead",
         "kbx_pwm_setup",
         {
             xml:
@@ -42,8 +44,6 @@ module.exports = {
                         </shadow>
                     </value>
                 </block>`
-        },
-        "kbx_pwm_digitalRead",
-        "kbx_pwm_analogRead"
+        }
     ]
 };

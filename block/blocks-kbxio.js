@@ -163,19 +163,19 @@ module.exports = function (Blockly) {
 			this.appendDummyInput()
 				.appendField("KBX-IO GPIO setup")
 				.appendField(new Blockly.FieldDropdown([
-					["RB00", "0"],
-					["RB01", "1"],
-					["RB02", "2"],
-					["RB03", "3"],
-					["RB04", "4"],
-					["RB13", "5"],
-					["RB15", "6"],
-					["RC00", "7"],
-					["RC01", "8"],
-					["RC02", "9"],
-					["RA04", "10"],
-					["RA08", "11"],
-					["RA09", "12"]
+					["IO1", "11"],
+					["IO2", "12"],
+					["IO3", "10"],
+					["IO4", "9"],
+					["IO5", "7"],
+					["IO6", "8"],
+					["IO7", "6"],
+					["IO8", "5"],
+					["IO9", "4"],
+					["IO10", "2"],
+					["IO11", "3"],
+					["IO12", "0"],
+					["IO13", "1"]
 				]), 'PIN')
 				.appendField("mode")
 				.appendField(new Blockly.FieldDropdown([
@@ -195,19 +195,19 @@ module.exports = function (Blockly) {
 			this.appendDummyInput()
 				.appendField(Blockly.Msg.OUTPUT_WRITE_TITLE)
 				.appendField(new Blockly.FieldDropdown([
-					["RB00", "0"],
-					["RB01", "1"],
-					["RB02", "2"],
-					["RB03", "3"],
-					["RB04", "4"],
-					["RB13", "5"],
-					["RB15", "6"],
-					["RC00", "7"],
-					["RC01", "8"],
-					["RC02", "9"],
-					["RA04", "10"],
-					["RA08", "11"],
-					["RA09", "12"]
+					["IO1", "11"],
+					["IO2", "12"],
+					["IO3", "10"],
+					["IO4", "9"],
+					["IO5", "7"],
+					["IO6", "8"],
+					["IO7", "6"],
+					["IO8", "5"],
+					["IO9", "4"],
+					["IO10", "2"],
+					["IO11", "3"],
+					["IO12", "0"],
+					["IO13", "1"]
 				]), 'OUTPUT')
 				.appendField(Blockly.Msg.STATUS)
 				.appendField(new Blockly.FieldDropdown([
@@ -240,7 +240,11 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendDummyInput()
 				.appendField("KBX-IO PWM write")
-				.appendField(new Blockly.FieldDropdown([["IO_PWM1", "IO_PWM1"], ["IO_PWM2", "IO_PWM2"], ["IO_PWM3", "IO_PWM3"]]), "pin")
+				.appendField(new Blockly.FieldDropdown([
+					["PWM1", "IO_PWM1"], 
+					["PWM2", "IO_PWM2"], 
+					["PWM3", "IO_PWM3"]
+				]), "pin")
 				.appendField("value");
 			this.appendValueInput("VALUE")
 				.setCheck("Number");
@@ -260,19 +264,19 @@ module.exports = function (Blockly) {
 			this.appendDummyInput()
 				.appendField("KBX-IO digitalRead")
 				.appendField(new Blockly.FieldDropdown([
-					["RB00", "0"],
-					["RB01", "1"],
-					["RB02", "2"],
-					["RB03", "3"],
-					["RB04", "4"],
-					["RB13", "5"],
-					["RB15", "6"],
-					["RC00", "7"],
-					["RC01", "8"],
-					["RC02", "9"],
-					["RA04", "10"],
-					["RA08", "11"],
-					["RA09", "12"]
+					["IO1", "11"],
+					["IO2", "12"],
+					["IO3", "10"],
+					["IO4", "9"],
+					["IO5", "7"],
+					["IO6", "8"],
+					["IO7", "6"],
+					["IO8", "5"],
+					["IO9", "4"],
+					["IO10", "2"],
+					["IO11", "3"],
+					["IO12", "0"],
+					["IO13", "1"]
 				]), "pin");
 			this.setInputsInline(true);
 			this.setOutput(true, null);
@@ -287,8 +291,8 @@ module.exports = function (Blockly) {
 			this.appendDummyInput()
 				.appendField("KBX-IO analogRead")
 				.appendField(new Blockly.FieldDropdown([
-					["IO_Analog1", "IO_Analog1"],
-					["IO_Analog2", "IO_Analog2"]
+					["ADC1", "IO_Analog1"],
+					["ADC2", "IO_Analog2"]
 				]), "pin");
 			this.setInputsInline(true);
 			this.setOutput(true, null);

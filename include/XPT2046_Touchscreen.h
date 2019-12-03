@@ -46,17 +46,24 @@ public:
 	bool begin();
 	TS_Point getPoint();
 	bool tirqTouched();
-	bool touched();
+	bool touched(uint16_t touch_threshold);
 	void readData(uint16_t *x, uint16_t *y, uint8_t *z);
 	bool bufferEmpty();
 	uint8_t bufferSize() { return 1; }
 	void setRotation(uint8_t n) { rotation = n % 4; }
+	// uint16_t getTouchX();
+	// uint16_t getTouchY();
 	uint16_t getTouchZ();
 // protected:
 	volatile bool isrWake=true;
 
 private:
 	void update();
+	void sw2spi();
+	// uint16_t _tx = 0;
+	// uint16_t _ty = 0;
+	uint16_t _tz = 0;
+	uint16_t _threshold = 1500;	// set Z threshold
 	uint8_t csPin, tirqPin, rotation=1;
 	int16_t xraw=0, yraw=0, zraw=0;
 	uint32_t msraw=0x80000000;

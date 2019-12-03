@@ -213,8 +213,18 @@ module.exports = {
             xml: `<sep gap="32"></sep><label text="KBX-UI Touch Screen" web-class="headline"></label>`
         },
         'touch_begin',
-        'touch_condition',
+        {
+            xml:
+            `<block type="touch_condition">
+                <value name="touch">
+                <shadow type="math_number">
+                    <field name="NUM">4500</field>
+                </shadow>
+                </value>
+            </block>`
+        },
         'touch_get_position_x',
-        'touch_get_position_y'
+        'touch_get_position_y',
+        'touch_get_position_z'
     ]
 };

@@ -121,13 +121,19 @@ for (int x=16; x>=-(int(6* String(${argument0}).length())); x--) {
 			"height",
 			Blockly.JavaScript.ORDER_ATOMIC);
 
-		var code = `KBX.Lcd.drawRGBBitmap(${value_x}, ${value_y}, ${value_img}.data(), ${value_width}, ${value_height});`;
+		var code = `
+KBX.Lcd.spi_init();
+KBX.Lcd.drawRGBBitmap(${value_x}, ${value_y}, ${value_img}.data(), ${value_width}, ${value_height});
+\n`;
 
 		return code;
 	};
 
 	Blockly.JavaScript['basic_TFT_setRotation'] = function (block) {
-		var code = 'KBX.Lcd.setRotation(' + block.getFieldValue('rotation') + ');\n';
+		var code = `
+KBX.Lcd.spi_init();
+KBX.Lcd.setRotation(' + block.getFieldValue('rotation') + ');
+\n`;
 		return code;
 	};
 
@@ -140,18 +146,21 @@ for (int x=16; x>=-(int(6* String(${argument0}).length())); x--) {
 		let blue = sourceColor & 0x000000FF;
 		let out = (red >> 3 << 11) + (green >> 2 << 5) + (blue >> 3);
 		out = out.toString(16);
-		var code = 'KBX.Lcd.spi_init();\nKBX.Lcd.fillScreen(0x' + out + ');\n';
+		var code = `
+KBX.Lcd.spi_init();
+KBX.Lcd.fillScreen(0x' + out + ');
+\n`;
 		return code;
 	};
 
 
 	Blockly.JavaScript['basic_TFT_setTextColor'] = function (block) {
-		var code = 'KBX.Lcd.setTextColor(0x' + rgbto16bit(block.getFieldValue('tColor')) + ', 0x' + rgbto16bit(block.getFieldValue('bColor')) + ');\n';
+		var code = 'KBX.Lcd.spi_init();\nKBX.Lcd.setTextColor(0x' + rgbto16bit(block.getFieldValue('tColor')) + ', 0x' + rgbto16bit(block.getFieldValue('bColor')) + ');\n';
 		return code;
 	};
 
 	Blockly.JavaScript['basic_TFT_setFonts'] = function (block) {
-		var code = 'KBX.Lcd.setUTF8Font(CF_KN_REG_' + block.getFieldValue('sText') + '_EN, CF_KN_REG_' + block.getFieldValue('sText') + '_TH, NULL);\n';
+		var code = 'KBX.Lcd.spi_init();\nKBX.Lcd.setUTF8Font(CF_KN_REG_' + block.getFieldValue('sText') + '_EN, CF_KN_REG_' + block.getFieldValue('sText') + '_TH, NULL);\n';
 		return code;
 	};
 
@@ -204,7 +213,10 @@ KBX.Lcd.drawUTF8String(${value_text}, ${value_x}, ${value_y}, 1);
 		var value_tColor = block.getFieldValue('tColor');
 		var text_color = rgbto16bit(value_tColor);
 
-		var code = `KBX.lcd.fillRect(${value_x}, ${value_y}, ${value_w}, ${value_h}, 0x${text_color});\n`;
+		var code = `
+KBX.Lcd.spi_init();
+KBX.lcd.fillRect(${value_x}, ${value_y}, ${value_w}, ${value_h}, 0x${text_color});
+		\n`;
 		return code;
 	};
 
@@ -218,7 +230,10 @@ KBX.Lcd.drawUTF8String(${value_text}, ${value_x}, ${value_y}, 1);
 	// ########################### TFT Display ###################################
 	Blockly.JavaScript["tft_display_setRotation"] = function (block) {
 		var value_rotation = block.getFieldValue('rotation');
-		var code = `KBX.Lcd.setRotation(${value_rotation});\n`;
+		var code = `
+KBX.Lcd.spi_init();
+KBX.Lcd.setRotation(${value_rotation});
+\n`;
 		return code;
 	};
 
@@ -239,6 +254,7 @@ KBX.Lcd.drawUTF8String(${value_text}, ${value_x}, ${value_y}, 1);
 
 		var code =
 			`
+KBX.Lcd.spi_init();
 KBX.Lcd.drawLine(${value_x0},${value_y0},${value_x1},${value_y1},0x${value_color});
 \n`;
 		return code;
@@ -263,12 +279,14 @@ KBX.Lcd.drawLine(${value_x0},${value_y0},${value_x1},${value_y1},0x${value_color
 		if (checkbox_fill) {
 			var code =
 				`
-		KBX.Lcd.fillRect(${value_x},${value_y},${value_width},${value_height},0x${value_color});
+KBX.Lcd.spi_init();
+KBX.Lcd.fillRect(${value_x},${value_y},${value_width},${value_height},0x${value_color});
 		`;
 		} else {
 			var code =
 				`
-		KBX.Lcd.drawRect(${value_x},${value_y},${value_width},${value_height},0x${value_color});
+KBX.Lcd.spi_init();
+KBX.Lcd.drawRect(${value_x},${value_y},${value_width},${value_height},0x${value_color});
 		`;
 		}
 		return code;
@@ -290,12 +308,14 @@ KBX.Lcd.drawLine(${value_x0},${value_y0},${value_x1},${value_y1},0x${value_color
 		if (checkbox_fill) {
 			var code =
 				`
-		KBX.Lcd.fillCircle(${value_x},${value_y},${value_r},0x${value_color});
+KBX.Lcd.spi_init();
+KBX.Lcd.fillCircle(${value_x},${value_y},${value_r},0x${value_color});
 		`;
 		} else {
 			var code =
 				`
-		KBX.Lcd.drawCircle(${value_x},${value_y},${value_r},0x${value_color});
+KBX.Lcd.spi_init();
+KBX.Lcd.drawCircle(${value_x},${value_y},${value_r},0x${value_color});
 		`;
 		}
 		return code;
@@ -319,9 +339,9 @@ KBX.Lcd.drawLine(${value_x0},${value_y0},${value_x1},${value_y1},0x${value_color
 	
 	  Blockly.JavaScript["touch_condition"] = function(block) {
 		var statements_mqtt_statement = Blockly.JavaScript.statementToCode(block,"TOUCH_STATEMENT");
-	
+		var value_threshold = Blockly.JavaScript.valueToCode(block,"touch",Blockly.JavaScript.ORDER_ATOMIC);
 		var code = `
-		if (ts.touched())
+		if (ts.touched(${value_threshold}))
 		{
 		  TS_Point p = ts.getPoint();
 		  int tft_point_x = map(p.x, 170, 3750, 0, 320);
@@ -336,14 +356,21 @@ KBX.Lcd.drawLine(${value_x0},${value_y0},${value_x1},${value_y1},0x${value_color
 	
 	  Blockly.JavaScript['touch_get_position_x'] = function(block) {
 		
-		var code = '(int)tft_point_x';
+		var code = '(uint16_t)tft_point_x';
 	
 		return [code, Blockly.JavaScript.ORDER_NONE];
 	  };
 	
 	  Blockly.JavaScript['touch_get_position_y'] = function(block) {
 		
-		var code = '(int)tft_point_y';
+		var code = '(uint16_t)tft_point_y';
+	
+		return [code, Blockly.JavaScript.ORDER_NONE];
+	  };
+
+	  Blockly.JavaScript['touch_get_position_z'] = function(block) {
+		
+		var code = '(uint32_t)ts.getTouchZ()';
 	
 		return [code, Blockly.JavaScript.ORDER_NONE];
 	  };

@@ -21,8 +21,17 @@
  */
 
 #include "XPT2046_Touchscreen.h"
+#include "driver/spi_common.h"
+#include "driver/gpio.h"
 
-#define Z_THRESHOLD 4300   // 400 10500
+#define SPI_MISO_GPIO GPIO_NUM_32
+#define SPI_MOSI_GPIO GPIO_NUM_21
+#define SPI_CLK_GPIO GPIO_NUM_22
+// #define SPI_CS_GPIO GPIO_NUM_19
+// #define SPI_DC_GPIO GPIO_NUM_18
+#define FUNC_GPIO PIN_FUNC_GPIO
+
+#define Z_THRESHOLD 400	// 400 10500
 #define Z_THRESHOLD_INT 75 // 75
 #define MSEC_THRESHOLD 3
 #define SPI_SETTING SPISettings(2000000, MSBFIRST, SPI_MODE0)
@@ -51,10 +60,18 @@ void isrPin(void)
 	o->isrWake = true;
 }
 
+
 TS_Point XPT2046_Touchscreen::getPoint()
 {
-	update();
-	return TS_Point(xraw, yraw, zraw);
+	// if ((uint16_t)_tz >= _threshold)
+	// {
+		// update();
+		return TS_Point(xraw, yraw, _tz);
+	// }
+	// else
+	// {
+	// }
+	// return TS_Point(xraw, yraw, zraw);
 }
 
 bool XPT2046_Touchscreen::tirqTouched()
@@ -62,11 +79,18 @@ bool XPT2046_Touchscreen::tirqTouched()
 	return (isrWake);
 }
 
-bool XPT2046_Touchscreen::touched()
+bool XPT2046_Touchscreen::touched(uint16_t touch_threshold)
 {
 	update();
-	return (getTouchZ() >= Z_THRESHOLD);
-	// return (zraw >= Z_THRESHOLD);
+	_threshold = touch_threshold;
+	if ((uint16_t)_tz >= _threshold)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void XPT2046_Touchscreen::readData(uint16_t *x, uint16_t *y, uint8_t *z)
@@ -112,24 +136,51 @@ static int16_t besttwoavg(int16_t x, int16_t y, int16_t z)
 // TODO: perhaps a future version should offer an option for more oversampling,
 //       with the RANSAC algorithm https://en.wikipedia.org/wiki/RANSAC
 
+void XPT2046_Touchscreen::sw2spi()
+{
+	spi_bus_config_t bus_config;
+	bus_config.miso_io_num = SPI_MISO_GPIO;
+	bus_config.mosi_io_num = SPI_MOSI_GPIO;
+	bus_config.sclk_io_num = SPI_CLK_GPIO;
+
+	// MUST init sclk before mosi  //
+	/*  SPI SCLK PIN  */
+	while (ESP_OK != gpio_set_direction(SPI_CLK_GPIO, GPIO_MODE_INPUT_OUTPUT));
+	while (ESP_OK != gpio_set_pull_mode(GPIO_NUM_21, GPIO_PULLUP_ONLY));
+	gpio_matrix_out(bus_config.sclk_io_num, spi_periph_signal[VSPI_HOST].spiclk_out, false, false);
+	gpio_matrix_in(bus_config.sclk_io_num, spi_periph_signal[VSPI_HOST].spiclk_in, false);
+	PIN_FUNC_SELECT(GPIO_PIN_MUX_REG[bus_config.sclk_io_num], FUNC_GPIO);
+
+	/*  SPI MOSI PIN  */
+	while (ESP_OK != gpio_set_direction(SPI_MOSI_GPIO, GPIO_MODE_INPUT_OUTPUT));
+	while (ESP_OK != gpio_set_pull_mode(GPIO_NUM_21, GPIO_PULLUP_ONLY));
+	gpio_matrix_out(bus_config.mosi_io_num, spi_periph_signal[VSPI_HOST].spid_out, false, false);
+	gpio_matrix_in(bus_config.mosi_io_num, spi_periph_signal[VSPI_HOST].spid_in, false);
+	PIN_FUNC_SELECT(GPIO_PIN_MUX_REG[bus_config.mosi_io_num], FUNC_GPIO);
+}
+
 uint16_t XPT2046_Touchscreen::getTouchZ()
 {
-	digitalWrite(19, HIGH);		// TFT_CS_PIN
-	SPI.begin(22, 32, 21, 27);
-	SPI.setFrequency(2500000);	// SPI_TOUCH_FREQUENCY
-	digitalWrite(27, LOW);	// TP_CS_PIN
+	// digitalWrite(19, HIGH); // TFT_CS_PIN
+	// digitalWrite(27, HIGH); // TP_CS_PIN
+	// SPI.begin(22, 32, 21, 27);
+	// SPI.setFrequency(2500000); // SPI_TOUCH_FREQUENCY
+	// digitalWrite(27, LOW);	 // TP_CS_PIN
 
-	// Z sample request
-	int16_t tz = 0xFFF;
-	SPI.transfer(0xb1);
-	tz += SPI.transfer16(0xc1) >> 3;
-	tz -= SPI.transfer16(0x91) >> 3;
+	// sw2spi();
 
-	digitalWrite(27, HIGH);	// TP_CS_PIN
+	// // Z sample request
+	// _tz = 0xFFF;
+	// SPI.transfer(0xb1);
+	// _tz += SPI.transfer16(0xc1) >> 3;
+	// _tz -= SPI.transfer16(0x91) >> 3;
 
-	SPI.begin(22, 32, 21, 19);
-	SPI.setFrequency(160000000);
-	return (uint16_t)tz;
+	// digitalWrite(27, HIGH); // TP_CS_PIN
+	// SPI.begin(22, 32, 21, 19);
+	// SPI.setFrequency(160000000);
+
+	return (uint16_t)_tz;
+	// return (uint16_t)zraw;
 }
 
 void XPT2046_Touchscreen::update()
@@ -142,16 +193,40 @@ void XPT2046_Touchscreen::update()
 	if (now - msraw < MSEC_THRESHOLD)
 		return;
 
+	digitalWrite(19, HIGH); // TFT_CS_PIN
+	digitalWrite(27, HIGH); // TP_CS_PIN
+	SPI.begin(22, 32, 21, 27);
+	SPI.setFrequency(2500000); // SPI_TOUCH_FREQUENCY
 	SPI.beginTransaction(SPI_SETTING);
-	digitalWrite(csPin, LOW);
+	digitalWrite(27, LOW);	 // TP_CS_PIN
 
-	SPI.transfer(0xB1 /* Z1 */);
-	int16_t z1 = SPI.transfer16(0xC1 /* Z2 */) >> 3;
-	int z = z1 + 4095;
-	int16_t z2 = SPI.transfer16(0x91 /* X */) >> 3;
-	z -= z2;
+	sw2spi();
 
-	if (z >= Z_THRESHOLD)
+	// Z sample request
+	_tz = 0xFFF;
+	SPI.transfer(0xb1);
+	_tz += SPI.transfer16(0xc1) >> 3;
+	_tz -= SPI.transfer16(0x91) >> 3;
+
+
+	// sw2spi();
+	// SPI.beginTransaction(SPI_SETTING);
+	// digitalWrite(27, LOW);
+
+	// SPI.transfer(0xB1 /* Z1 */);
+	// int16_t z1 = SPI.transfer16(0xC1 /* Z2 */) >> 3;
+	// int z = z1 + 4095;
+	// int16_t z2 = SPI.transfer16(0x91 /* X */) >> 3;
+	// z -= z2;
+
+	int16_t z = _tz;
+	// int16_t z = 0xFFF;
+	// SPI.transfer(0xb1);
+	// z += SPI.transfer16(0xc1) >> 3;
+	// z -= SPI.transfer16(0x91) >> 3;
+	
+
+	if (z >= _threshold)
 	{
 		SPI.transfer16(0x91 /* X */); // dummy X measure, 1st is always noisy
 		data[0] = SPI.transfer16(0xD1 /* Y */) >> 3;
@@ -160,25 +235,33 @@ void XPT2046_Touchscreen::update()
 		data[3] = SPI.transfer16(0x91 /* X */) >> 3;
 	}
 	else
+	{
 		data[0] = data[1] = data[2] = data[3] = 0; // Compiler warns these values may be used unset on early exit.
-	data[4] = SPI.transfer16(0xD0 /* Y */) >> 3;   // Last Y touch power down
+	}
+	data[4] = SPI.transfer16(0xD0 /* Y */) >> 3; // Last Y touch power down
 	data[5] = SPI.transfer16(0) >> 3;
 
-	digitalWrite(csPin, HIGH);
+	digitalWrite(27, HIGH);
 	SPI.endTransaction();
+
+	
+	digitalWrite(27, HIGH); // TP_CS_PIN
+	SPI.begin(22, 32, 21, 19);
+	SPI.setFrequency(160000000);
+
 
 	if (z < 0)
 		z = 0;
-	if (z < Z_THRESHOLD)
-	{ //	if ( !touched ) {
-		// Serial.println();
-		zraw = 0;
-		// if (z < Z_THRESHOLD_INT) { //	if ( !touched ) {
-		// 	if (255 != tirqPin) isrWake = false;
-		// }
-		return;
-	}
-	zraw = z;
+	// if (z < _threshold)
+	// { //	if ( !touched ) {
+	// 	// Serial.println();
+	// 	zraw = 0;
+	// 	// if (z < Z_THRESHOLD_INT) { //	if ( !touched ) {
+	// 	// 	if (255 != tirqPin) isrWake = false;
+	// 	// }
+	// 	return;
+	// }
+	// zraw = z;
 
 	// Serial.printf("z=%d  ::  z1=%d,  z2=%d  ", z, Z_THRESHOLD, Z_THRESHOLD_INT);
 
@@ -191,7 +274,7 @@ void XPT2046_Touchscreen::update()
 
 	//Serial.printf("    %d,%d", x, y);
 	//Serial.println();
-	if (z >= Z_THRESHOLD)
+	if (z >= _threshold)
 	{
 		msraw = now; // good read completed, set wait
 		switch (rotation)
