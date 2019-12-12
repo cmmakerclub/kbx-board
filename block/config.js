@@ -6,6 +6,7 @@ let music = require("./menu/config.group.music");
 let time = require("./menu/config.group.time");
 let kbx = require("./menu/config.group.kbxio");
 let math = require("./menu/config.group.math");
+let sdcard = require("./menu/config.group.sdcard");
 
 module.exports = {
   blocks: [
@@ -15,6 +16,7 @@ module.exports = {
     music,
     time,
     kbx,
+    sdcard,
     math
   ],
 };

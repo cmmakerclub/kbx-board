@@ -43,7 +43,7 @@ module.exports = function (Blockly) {
 	Blockly.Blocks['music_begin'] = {
 		init: function () {
 			this.appendDummyInput()
-				.appendField("Buzzer begin :")
+				.appendField("Buzzer begin")
 				.appendField(new Blockly.FieldDropdown([
 					["PWM_ch0", "0"],
 					["PWM_ch1", "1"],
@@ -66,7 +66,7 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendValueInput("note")
 				.setCheck("std::vector<int>")
-				.appendField("play music notes");
+				.appendField("Buzzer play music");
 			this.appendDummyInput()
 				.appendField("duration")
 				.appendField(new Blockly.FieldDropdown(Blockly.Blocks["music_duration_opt"]), 'DURATION');
@@ -89,7 +89,7 @@ module.exports = function (Blockly) {
 				return e;
 			};
 			this.appendDummyInput()
-				.appendField("buzzer note")
+				.appendField("Buzzer note")
 				.appendField(new Blockly.FieldImage("/static/icons/icons8_move_24px.png", 15, 15, "move"))
 				.appendField(f, "notes");
 			this.setInputsInline(true);
@@ -173,8 +173,9 @@ module.exports = function (Blockly) {
 	Blockly.Blocks["music_note"] = {
 		init: function () {
 			this.appendDummyInput()
-				.appendField(new Blockly.FieldImage("/static/block_icons/buzzer.png", 20, 20, "*"))
-				.appendField(Blockly.Msg.MUSIC_NOTE_TITLE)
+				.appendField("Buzzer play note")
+				// .appendField(new Blockly.FieldImage("/static/block_icons/buzzer.png", 20, 20, "*"))
+				// .appendField(Blockly.Msg.MUSIC_NOTE_TITLE)
 				.appendField(new Blockly.FieldDropdown([
 					[Blockly.Msg.MUSIC_NOTE_C7, "2093"],
 					[Blockly.Msg.MUSIC_NOTE_B6, "1976"],
@@ -883,21 +884,24 @@ module.exports = function (Blockly) {
 		}
 	};
 
-	Blockly.Blocks["music_set_volume"] = {
-		init: function () {
-			// music volume 0 - 100 %
-			this.appendDummyInput()
-				.appendField(new Blockly.FieldImage("/static/block_icons/buzzer.png", 20, 20, "*"))
-				.appendField(Blockly.Msg.MUSIC_SET_VOLUME_TITLE)
-				.appendField(new Blockly.FieldNumber(50, 0, 100, 1), 'VALUE')
-				.appendField("%");
-			this.setPreviousStatement(true);
-			this.setNextStatement(true);
-			this.setColour(music_colour);
-			this.setTooltip(Blockly.Msg.MUSIC_SET_VOLUME_TOOLTIP);
-			this.setHelpUrl(Blockly.Msg.MUSIC_SET_VOLUME_HELPURL);
-		}
-	};
+	// Blockly.Blocks["music_set_volume"] = {
+	// 	init: function () {
+	// 		// music volume 0 - 100 %
+	// 		this.appendDummyInput()
+	// 			.appendField(new Blockly.FieldImage("/static/block_icons/buzzer.png", 20, 20, "*"))
+	// 			.appendField(Blockly.Msg.MUSIC_SET_VOLUME_TITLE)
+	// 		this.appendValueInput("VOLUME")
+	// 			.setCheck("Number");
+	// 		this.appendDummyInput()
+	// 			// .appendField(new Blockly.FieldNumber(50, 0, 100, 1), 'VALUE')
+	// 			.appendField("%");
+	// 		this.setPreviousStatement(true);
+	// 		this.setNextStatement(true);
+	// 		this.setColour(music_colour);
+	// 		this.setTooltip(Blockly.Msg.MUSIC_SET_VOLUME_TOOLTIP);
+	// 		this.setHelpUrl(Blockly.Msg.MUSIC_SET_VOLUME_HELPURL);
+	// 	}
+	// };
 
 	Blockly.Blocks["music_get_volume"] = {
 		init: function () {
@@ -993,7 +997,8 @@ module.exports = function (Blockly) {
 				return e;
 			};
 			this.appendDummyInput()
-				.appendField(new Blockly.FieldImage("/static/icons/icons8_move_24px.png", 15, 15, "move"))
+				.appendField("message")
+				// .appendField(new Blockly.FieldImage("/static/icons/icons8_move_24px.png", 15, 15, "move"))
 				.appendField(f, "words");
 			this.setOutput(true, "std::vector<const uint8_t *>");
 			this.setColour(315);
@@ -1005,8 +1010,12 @@ module.exports = function (Blockly) {
 	Blockly.Blocks['speaker_set_volume'] = {
 		init: function () {
 			this.appendDummyInput()
-				.appendField("set volume (0-10)")
-				.appendField(new Blockly.FieldNumber(10, 0, 10), "volume");
+				.appendField("Speaker set volume (0-10)")
+				// .appendField(new Blockly.FieldNumber(10, 0, 10), "volume");
+			this.appendValueInput("VOLUME")
+				.setCheck("Number");
+			this.appendDummyInput()
+				.appendField("%")
 			this.setPreviousStatement(true, null);
 			this.setNextStatement(true, null);
 			this.setColour(315);
@@ -1018,7 +1027,7 @@ module.exports = function (Blockly) {
 	Blockly.Blocks['speaker_get_volume'] = {
 		init: function () {
 			this.appendDummyInput()
-				.appendField("get volume");
+				.appendField("Speaker get volume");
 			this.setInputsInline(true);
 			this.setOutput(true, "Number");
 			this.setColour(315);

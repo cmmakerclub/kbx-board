@@ -130,7 +130,8 @@ kbsound.speak(${value_words});
     return code;
   };
   Blockly.JavaScript["speaker_set_volume"] = function (block) {
-    var number_volume = block.getFieldValue("volume");
+    // var number_volume = block.getFieldValue("volume");
+    var number_volume = Blockly.JavaScript.valueToCode(block, 'VOLUME', Blockly.JavaScript.ORDER_ATOMIC);
     var code = `
 #EXTINC#include <KBSound.h>#END
 #VARIABLEKBSound kbsound;#END
@@ -140,7 +141,7 @@ kbsound.setVolume(${number_volume});
   };
 
   Blockly.JavaScript["speaker_get_volume"] = function (block) {
-    var code = `#EXTINC#include <KBSound.h>#END#VARIABLEKBSound kbsound;#ENDkbsound.getVolume(${value_words});`;
+    var code = `#EXTINC#include <KBSound.h>#END#VARIABLEKBSound kbsound;#ENDkbsound.getVolume()`;
     return [code, Blockly.JavaScript.ORDER_ATOMIC];
   };
 

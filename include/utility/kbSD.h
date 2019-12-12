@@ -34,15 +34,33 @@ class SDFS : public FS
 {
 protected:
     uint8_t _pdrv;
+    void sw2spi();
 
 public:
     SDFS(FSImplPtr impl);
     bool begin(uint8_t ssPin=13, SPIClass &spi=SPI, uint32_t frequency=4000000, const char * mountpoint="/sd");
     void end();
+
+    void listDir(fs::FS &fs, const char * dirname, uint8_t levels);
+    void createDir(fs::FS &fs, const char * path);
+    void removeDir(fs::FS &fs, const char * path);
+    String readText(const char *path);
+    void readFile(fs::FS &fs, const char * path);
+    void writeFile(fs::FS &fs, const char * path, const char * message);
+    void writeCSV(fs::FS &fs, const char *path, const char *message1, const char *message2, const char *message3, const char *message4);
+    void renameFile(fs::FS &fs, const char * path1, const char * path2);
+    void appendFile(fs::FS &fs, const char * path, const char * message, bool _newLine);
+    void deleteFile(fs::FS &fs, const char * path);
+    String readCardtype();
+    String readCardSize();
+    String readTotalBytes();
+    String readUsedBytes();
+
     sdcard_type_t cardType();
     uint64_t cardSize();
     uint64_t totalBytes();
     uint64_t usedBytes();
+    String _msg;
 };
 
 }

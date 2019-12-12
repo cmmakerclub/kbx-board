@@ -104,6 +104,24 @@ for (int x=16; x>=-(int(6* String(${argument0}).length())); x--) {
 		return [code, Blockly.JavaScript.ORDER_ATOMIC];
 	};
 
+	Blockly.JavaScript["i2c128x64_take_a_photo"] = function (block) {
+		var dataurl = block.inputList[1].fieldRow["0"].src_;
+		var image = nativeImage.createFromDataURL(dataurl);
+		var size = image.getSize();
+
+		var mm = image.getBitmap();
+		var arr = [];
+		var raw = [];
+		for (let i = 0; i < image.getBitmap().length - 4; i += 4) {
+			let [r, g, b] = [mm[i + 2], mm[i + 1], mm[i + 0]];
+			let out = (((r & 0xf8) << 8) + ((g & 0xfc) << 3) + (b >> 3));
+			arr.push("0x" + out.toString(16));
+		}
+		console.log(raw);
+		var code = `(std::vector<uint16_t>{${arr.join(",")}})`;
+		return [code, Blockly.JavaScript.ORDER_ATOMIC];
+	};
+
 	Blockly.JavaScript["i2c128x64_display_image"] = function (block) {
 		var value_img = Blockly.JavaScript.valueToCode(block,
 			"img",
@@ -130,9 +148,10 @@ KBX.Lcd.drawRGBBitmap(${value_x}, ${value_y}, ${value_img}.data(), ${value_width
 	};
 
 	Blockly.JavaScript['basic_TFT_setRotation'] = function (block) {
+		var dropdown_rotation = block.getFieldValue('rotation');
 		var code = `
 KBX.Lcd.spi_init();
-KBX.Lcd.setRotation(' + block.getFieldValue('rotation') + ');
+KBX.Lcd.setRotation(${dropdown_rotation});
 \n`;
 		return code;
 	};
@@ -148,7 +167,7 @@ KBX.Lcd.setRotation(' + block.getFieldValue('rotation') + ');
 		out = out.toString(16);
 		var code = `
 KBX.Lcd.spi_init();
-KBX.Lcd.fillScreen(0x' + out + ');
+KBX.Lcd.fillScreen(0x${out});
 \n`;
 		return code;
 	};
@@ -322,56 +341,44 @@ KBX.Lcd.drawCircle(${value_x},${value_y},${value_r},0x${value_color});
 	};
 
 	// ########################### TFT Touch screen ###################################
-	Blockly.JavaScript["touch_begin"] = function(block) {
-		var code =
-		  `
-	  #EXTINC#include <XPT2046_Touchscreen.h>#END
-	  #VARIABLEXPT2046_Touchscreen ts(TOUCH_PIN);#END
-	  #SETUP
-	  SPI.begin(22, 32, 21, 27);
-	  ts.begin();
-	  ts.setRotation(1);
-	  #END
-	  \n
-	  `;
-		return code;
-	  };
-	
-	  Blockly.JavaScript["touch_condition"] = function(block) {
-		var statements_mqtt_statement = Blockly.JavaScript.statementToCode(block,"TOUCH_STATEMENT");
-		var value_threshold = Blockly.JavaScript.valueToCode(block,"touch",Blockly.JavaScript.ORDER_ATOMIC);
+	Blockly.JavaScript["touch_begin"] = function (block) {
 		var code = `
-		if (ts.touched(${value_threshold}))
-		{
-		  TS_Point p = ts.getPoint();
-		  int tft_point_x = map(p.x, 170, 3750, 0, 320);
-		  int tft_point_y = map(p.y, 200, 3855, 240, 0);
-		  ${statements_mqtt_statement}
-		}
-		\n
-		`;
+#EXTINC#include <XPT2046_Touchscreen.h>#END
+#VARIABLEXPT2046_Touchscreen ts(TOUCH_PIN);#END
+#SETUP
+SPI.begin(22, 32, 21, 27);
+ts.begin();
+ts.setRotation(1);
+#END\n`;
 		return code;
-	  };
-	
-	
-	  Blockly.JavaScript['touch_get_position_x'] = function(block) {
-		
-		var code = '(uint16_t)tft_point_x';
-	
-		return [code, Blockly.JavaScript.ORDER_NONE];
-	  };
-	
-	  Blockly.JavaScript['touch_get_position_y'] = function(block) {
-		
-		var code = '(uint16_t)tft_point_y';
-	
-		return [code, Blockly.JavaScript.ORDER_NONE];
-	  };
+	};
 
-	  Blockly.JavaScript['touch_get_position_z'] = function(block) {
-		
-		var code = '(uint32_t)ts.getTouchZ()';
-	
+	Blockly.JavaScript["touch_condition"] = function (block) {
+		var statements_mqtt_statement = Blockly.JavaScript.statementToCode(block, "TOUCH_STATEMENT");
+		var value_threshold = Blockly.JavaScript.valueToCode(block, "touch", Blockly.JavaScript.ORDER_ATOMIC);
+		var code = `
+if (ts.touched(${value_threshold})) {
+	TS_Point p = ts.getPoint();
+	int tft_point_x = map(p.x, 170, 3750, 0, 320);
+	int tft_point_y = map(p.y, 200, 3855, 240, 0);
+${statements_mqtt_statement}
+}\n`;
+		return code;
+	};
+
+
+	Blockly.JavaScript['touch_get_position_x'] = function (block) {
+		var code = '(uint16_t)tft_point_x';
 		return [code, Blockly.JavaScript.ORDER_NONE];
-	  };
+	};
+
+	Blockly.JavaScript['touch_get_position_y'] = function (block) {
+		var code = '(uint16_t)tft_point_y';
+		return [code, Blockly.JavaScript.ORDER_NONE];
+	};
+
+	Blockly.JavaScript['touch_get_position_z'] = function (block) {
+		var code = '(uint32_t)ts.getTouchZ()';
+		return [code, Blockly.JavaScript.ORDER_NONE];
+	};
 }

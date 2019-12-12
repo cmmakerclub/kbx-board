@@ -15,10 +15,11 @@
 #define TP_MISO_PIN 32 //IN1
 
 // SD card
-#define TFCARD_CS_PIN   23
-#define TFCARD_MOSI_PIN 21
 #define TFCARD_CLK_PIN  22
+#define TFCARD_MOSI_PIN 21
 #define TFCARD_MISO_PIN 32 //IN1
+#define TFCARD_CS_PIN   23
+
 
 // Buttons
 #define BTN_A 0

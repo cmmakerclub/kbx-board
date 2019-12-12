@@ -33,11 +33,19 @@ module.exports = {
         },
         {
             xml: `<block type="variables_set">
-                                   <field name="VAR">img1</field>
-                                   <value name="VALUE">
-                                       <block type="i2c128x64_create_image" inline="false"></block>
-                                   </value>
-                               </block>`
+                  <field name="VAR">img1</field>
+                    <value name="VALUE">
+                        <block type="i2c128x64_create_image" inline="false"></block>
+                    </value>
+                  </block>`
+        },
+        {
+            xml: `<block type="variables_set">
+                  <field name="VAR">cam1</field>
+                    <value name="VALUE">
+                        <block type="i2c128x64_take_a_photo" inline="false"></block>
+                    </value>
+                  </block>`
         },
         {
             xml:
@@ -64,12 +72,47 @@ module.exports = {
                              </value>
                              <value name="width">
                                  <shadow type="math_number">
-                                     <field name="NUM">10</field>
+                                     <field name="NUM">240</field>
                                  </shadow>
                              </value>
                              <value name="height">
                                  <shadow type="math_number">
-                                     <field name="NUM">10</field>
+                                     <field name="NUM">180</field>
+                                 </shadow>
+                             </value>
+                         </block>`
+        },
+        {
+            xml:
+                `<block type="i2c128x64_display_image">
+                             <value name="img">
+                                 <block type="variables_get">
+                                     <field name="VAR">cam1</field>
+                                 </block>
+                             </value>
+                             <value name="x">
+                                 <shadow type="math_number">
+                                     <field name="NUM">0</field>
+                                 </shadow>
+                             </value>
+                             <value name="x">
+                                 <shadow type="math_number">
+                                     <field name="NUM">0</field>
+                                 </shadow>
+                             </value>
+                             <value name="y">
+                                 <shadow type="math_number">
+                                     <field name="NUM">0</field>
+                                 </shadow>
+                             </value>
+                             <value name="width">
+                                 <shadow type="math_number">
+                                     <field name="NUM">256</field>
+                                 </shadow>
+                             </value>
+                             <value name="height">
+                                 <shadow type="math_number">
+                                     <field name="NUM">192</field>
                                  </shadow>
                              </value>
                          </block>`
@@ -215,10 +258,10 @@ module.exports = {
         'touch_begin',
         {
             xml:
-            `<block type="touch_condition">
+                `<block type="touch_condition">
                 <value name="touch">
                 <shadow type="math_number">
-                    <field name="NUM">4500</field>
+                    <field name="NUM">1000</field>
                 </shadow>
                 </value>
             </block>`

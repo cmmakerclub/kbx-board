@@ -63,15 +63,7 @@ void isrPin(void)
 
 TS_Point XPT2046_Touchscreen::getPoint()
 {
-	// if ((uint16_t)_tz >= _threshold)
-	// {
-		// update();
-		return TS_Point(xraw, yraw, _tz);
-	// }
-	// else
-	// {
-	// }
-	// return TS_Point(xraw, yraw, zraw);
+	return TS_Point(xraw, yraw, _tz);
 }
 
 bool XPT2046_Touchscreen::tirqTouched()

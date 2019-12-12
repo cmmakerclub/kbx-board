@@ -36,14 +36,14 @@ void kbxui::begin(bool LCDEnable, bool SDEnable) {
     pinMode(BUTTON_SW2_PIN, INPUT_PULLUP);
 
 	// Matrix INIT
-	  matrix.begin(0x70);  // pass in the address
+	matrix.begin(0x70);  // pass in the address
 
 	  // KBX-UI LCD INIT
     if (LCDEnable) Lcd.begin();
 	//KBX.Lcd.fillScreen(RED);
 
     // TF Card
-    if (SDEnable) SD.begin(TFCARD_CS_PIN, SPI, 40000000);
+    // if (SDEnable) SD.begin(TFCARD_CS_PIN, SPI, 40000000);
 	
     // Set wakeup button
     setWakeupButton(BUTTON_A_PIN);

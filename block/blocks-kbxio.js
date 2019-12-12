@@ -264,13 +264,13 @@ module.exports = function (Blockly) {
 			this.appendDummyInput()
 				.appendField("KBX-IO digitalRead")
 				.appendField(new Blockly.FieldDropdown([
-					["IO1", "11"],
-					["IO2", "12"],
-					["IO3", "10"],
-					["IO4", "9"],
-					["IO5", "7"],
-					["IO6", "8"],
-					["IO7", "6"],
+					["IO1", "12"],
+					["IO2", "13"],
+					["IO3", "11"],
+					["IO4", "10"],
+					["IO5", "8"],
+					["IO6", "9"],
+					["IO7", "7"],
 					["IO8", "5"],
 					["IO9", "4"],
 					["IO10", "2"],

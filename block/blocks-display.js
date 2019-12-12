@@ -50,7 +50,7 @@ module.exports = function (Blockly) {
 						});
 					},
 					true));
-			this.appendDummyInput().appendField("image size is 280 x 210");
+			this.appendDummyInput().appendField("image size is 320 x 240");
 
 			this.setOutput(true, "std::vector<uint16_t>");
 			this.setColour(basic_colour);
@@ -60,11 +60,60 @@ module.exports = function (Blockly) {
 		}
 	};
 
+	Blockly.Blocks["i2c128x64_take_a_photo"] = {
+		init: function () {
+			this.appendDummyInput().appendField("take a photo");
+			this.appendDummyInput().appendField(
+				new Blockly.FieldImage(
+					"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAIAAABdtOgoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJ/SURBVHhe7ZbbdQIxDES3LgraeqiGZiiG2JLWHhmbx08Gkrk/kWU9GR/IdhNUJAAZCUBGApCRAGQkABkJQEYCkJEAZCQAGQlARgKQkQBkJAAZCUBGApCRAGQkABkJQEYCkJEAZCQAGQlARgKQkQBkJACZFwW47Nu2nc7XOP4ZbK9tv8SRgASQAP+bhQDX86k+jYo9jxDgbA+mAG/GH5GDEs393dtLQLNRZL9qTnwHs/oeHpUh18xjfHzvkBAxF/NUirf16DnQts+KsxTiwos7PXZgKkDesxrRweZw20dCGxZe+aHw9bzH33obC9p92A4WhfRF/VTszj+UrkBCxKT4sVfxm+s+8a492pO9GjMB+p6N5OqHHOk96/Ghv18U0pzTSWfdVvVTte5GMwMJKSYVyt2CPAymQbW2iUW3EzIRYMg10gztkGaGi5X/MB3rAOfGMGiqalWW9dPoEJX8CFykoikBxh/m7cUH65W9nKUA0TDAGeCQ3DD1yn/QW+TIORaznU5tu2X91Kk3mUwQwAWEDwmtG3r7CO4NjqFe2cuYfQWlUeA3YFIc/fPx0F+s8PV7s45VF7QVI/tJX7fd9CAMScCFm5OavZl5PcKrD04EJnnI9Ef4GKAC/Y4u6dAjC9Bv7gdvj/VZG5OhIw3XXPVtxeIfGsvx4GVhu3AzWqQE2LePuu/FHJ1Ga/N8r8JCgE8DPoNPI422VHrJdwjgb+mdvX6N/JG/P+g3COA7fubnX8lfNW+O+SVfQX8XCUBGApCRAGQkABkJQEYCkJEAZCQAGQlARgKQkQBkJAAZCUBGApCRAGQkABkJQEYCkJEAZCQAGQlARgKQkQBkJACV2+0HImEfdtax+UEAAAAASUVORK5CYII=",
+					128,
+					64,
+					"click to take a photo",
+					function (e) {
+						let myself = this;
+						let id = this.sourceBlock_.id.toUpperCase();
+						Blockly.camera(res => {
+							//--- resize image ---//
+							let image = nativeImage.createFromDataURL(res);
+							let size = image.getSize();
+							if (size.width > 256) {
+								image = image.resize({ width: 256 });
+								size = image.getSize();
+							}
+							if (size.height > 192) {
+								image = image.resize({ height: 192 });
+								size = image.getSize();
+							}
+							var buff = image.getBitmap();
+							//---- dithering image ----//
+							//floyd_steinberg(buff,size.width);
+							//---- display image ----//
+							myself.sourceBlock_.inputList[2].fieldRow[0].setValue(
+								`image size ${size.width} x ${size.height}`
+							);
+							myself.sourceBlock_.inputList[2].fieldRow[0].init();
+							myself.setValue(image.toDataURL());
+							myself.init();
+						});
+					},
+					true
+				)
+			);
+			this.appendDummyInput().appendField("image size is 320 x 240");
+
+			this.setOutput(true, "std::vector<uint16_t>");
+			this.setColour(basic_colour);
+			this.setTooltip(
+				"create image from camera (for best quality result please use size within 320x240 pixel otherwise, it'll resize)"
+			);
+		}
+	};
+
 	Blockly.Blocks["i2c128x64_display_image"] = {
 		init: function () {
 			this.appendValueInput("img")
 				.setCheck("std::vector<uint16_t>")
-				.appendField("draw image");
+				.appendField("TFT draw image");
 			this.appendValueInput("x")
 				.setCheck("Number")
 				.appendField(" at (X");
@@ -276,6 +325,8 @@ module.exports = function (Blockly) {
 				.appendField("TFT print x:")
 			this.appendValueInput('X')
 				.setCheck("Number")
+			this.appendDummyInput()
+				.appendField("y:")
 			this.appendValueInput('Y')
 				.setCheck("Number")
 			this.appendValueInput('TEXT')
@@ -308,6 +359,8 @@ module.exports = function (Blockly) {
 				.appendField("TFT print fonts Thai x:")
 			this.appendValueInput('X')
 				.setCheck("Number")
+			this.appendDummyInput()
+				.appendField("y:")
 			this.appendValueInput('Y')
 				.setCheck("Number")
 			this.appendValueInput('TEXT')
@@ -337,7 +390,7 @@ module.exports = function (Blockly) {
 	Blockly.Blocks['basic_TFT_clearPixel'] = {
 		init: function () {
 			this.appendDummyInput()
-				.appendField("TFT clear x:")
+				.appendField("TFT clear position x:")
 			this.appendValueInput('X')
 				.setCheck("Number")
 			this.appendDummyInput()
@@ -402,18 +455,16 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendValueInput("x0")
 				.setCheck("Number")
-				.appendField("draw line from (X");
+				.appendField("TFT draw line from x1:");
 			this.appendValueInput("y0")
 				.setCheck("Number")
-				.appendField(",Y");
+				.appendField("y1:");
 			this.appendValueInput("x1")
 				.setCheck("Number")
-				.appendField(")  to  (X");
+				.appendField(" to x2:");
 			this.appendValueInput("y1")
 				.setCheck("Number")
-				.appendField(",Y");
-			this.appendDummyInput()
-				.appendField(")");
+				.appendField("y2:");
 			this.appendDummyInput()
 				.appendField("color")
 				.appendField(new Blockly.FieldColour("#ff0000"), "COLOR");
@@ -430,18 +481,18 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendValueInput("x")
 				.setCheck("Number")
-				.appendField("draw rectangle at (X");
+				.appendField("TFT draw rectangle x:");
 			this.appendValueInput("y")
 				.setCheck("Number")
-				.appendField(", Y");
+				.appendField("y:");
 			this.appendValueInput("width")
 				.setCheck("Number")
-				.appendField(")  width");
+				.appendField("width:");
 			this.appendValueInput("height")
 				.setCheck("Number")
-				.appendField(" height");
+				.appendField("height:");
 			this.appendDummyInput()
-				.appendField("color")
+				.appendField("color:")
 				.appendField(new Blockly.FieldColour("#00ff00"), "COLOR");
 			this.appendDummyInput()
 				.appendField(" fill ")
@@ -459,15 +510,15 @@ module.exports = function (Blockly) {
 		init: function () {
 			this.appendValueInput("x")
 				.setCheck("Number")
-				.appendField("draw circle at (X");
+				.appendField("TFT draw circle x:");
 			this.appendValueInput("y")
 				.setCheck("Number")
-				.appendField(",Y");
+				.appendField("y:");
 			this.appendValueInput("r")
 				.setCheck("Number")
-				.appendField(")  radius");
+				.appendField("radius:");
 			this.appendDummyInput()
-				.appendField("color")
+				.appendField("color:")
 				.appendField(new Blockly.FieldColour("#0000ff"), "COLOR");
 			this.appendDummyInput()
 				.appendField(" fill")
