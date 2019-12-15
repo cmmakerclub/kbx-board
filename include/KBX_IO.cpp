@@ -134,17 +134,17 @@ void KBX_IO::usb_loop()
     if (curTime_kb - prevTime_kb >= 50)
     {
         prevTime_kb = curTime_kb;
-
-        Wire1.begin(4, 5);
-        Wire1.beginTransmission(0x34);
-        Wire1.write(0);
-        Wire1.endTransmission(false);
-        Wire1.requestFrom((uint8_t)0x34, (uint8_t)16, true); //request 16 Bytes
+        
+        Wire.begin(4, 5);
+        Wire.beginTransmission(0x34);
+        Wire.write(0);
+        Wire.endTransmission(false);
+        Wire.requestFrom((uint8_t)0x34, (uint8_t)16, true); //request 16 Bytes
 
         byte buff[16];
         byte idx = 0;
-        while (Wire1.available())
-            ((uint8_t *)buff)[idx++] = Wire1.read();
+        while (Wire.available())
+            ((uint8_t *)buff)[idx++] = Wire.read();
 
         // keyboard A-Z
         _data1 = char(buff[1] + 61);

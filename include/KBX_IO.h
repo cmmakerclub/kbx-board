@@ -72,21 +72,6 @@ public:
     boolean joystick_button_select();
     boolean joystick_button_start();
 
-protected:
-    byte _pinSetup_H = 0xFF;
-    byte _pinSetup_L = 0xFF;
-
-    byte _status_H = 0x00;
-    byte _status_L = 0x00;
-
-    byte _pinmask_H = 0x00;
-    byte _pinmask_L = 0x00;
-
-    unsigned long prevTime_kb = 0;
-    unsigned long curTime_kb = 0;
-
-    char _data1;
-    char _data2;
     String _keyboard_1_char;
     String _keyboard_2_char;
 
@@ -104,7 +89,26 @@ protected:
     boolean _joystick_button_select = 0;
     boolean _joystick_button_start = 0;
 
+protected:
+    
 private:
+    byte _pinSetup_H = 0xFF;
+    byte _pinSetup_L = 0xFF;
+
+    byte _status_H = 0x00;
+    byte _status_L = 0x00;
+
+    byte _pinmask_H = 0x00;
+    byte _pinmask_L = 0x00;
+
+    unsigned long prevTime_kb = 0;
+    unsigned long curTime_kb = 0;
+
+    char _data1;
+    char _data2;
+
+    
+
 };
 
 #endif /* KBX_IO_h */
